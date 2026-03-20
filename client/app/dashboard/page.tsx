@@ -203,7 +203,7 @@ function StatCard({ title, value, trend, description }: { title: string, value: 
            <span className="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-full">{trend}</span>
         )}
       </div>
-      <p className="text-3xl font-bold mb-2">{p}</p>
+      <p className="text-3xl font-bold mb-2">{value}</p>
       <p className="text-xs text-slate-500 font-medium">{description}</p>
     </motion.div>
   );
