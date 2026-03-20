@@ -1,7 +1,19 @@
 {
+  "name": "golf-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo 'Backend logic is LIVE. Functions are ready via Client actions.'",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "test:db": "tsx --env-file=.env scripts/test-connection.ts"
+  },
   "dependencies": {
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.3",
     "next": "^16.2.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.0.0"
   }
 }
