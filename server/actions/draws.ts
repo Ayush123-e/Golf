@@ -15,7 +15,9 @@ export async function simulateMonthlyDraw(drawId: string) {
   if (!entries) return [];
 
   const results = entries.map(entry => {
-    const matchCount = entry.scores.filter(num => draw.draw_numbers?.includes(num)).length;
+    const entryScores = entry.scores || [];
+    const drawNumbers = draw.draw_numbers || [];
+    const matchCount = entryScores.filter((num: number) => drawNumbers.includes(num)).length;
     return { user_id: entry.user_id, match_count: matchCount };
   });
 
