@@ -1,4 +1,4 @@
-import { createClient } from '@server/lib/supabaseServer';
+import { createClient } from '@server/lib/supabase';
 import { Trophy, AlertCircle } from 'lucide-react';
 
 export default async function RollingScores() {

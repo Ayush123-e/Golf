@@ -1,7 +1,7 @@
 import DashboardHeader from '@/components/dashboard/Header';
 import RollingScores from '@/components/dashboard/RollingScores';
 import PrizeStats from '@/components/dashboard/PrizeStats';
-import { createClient } from '@server/lib/supabaseServer';
+import { createClient } from '@server/lib/supabase';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
