@@ -9,9 +9,9 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 overflow-x-hidden relative">
       <section className="relative h-[90vh] flex flex-col items-center justify-center pt-20">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/assets/hero_golf_ball.png" 
-            alt="Golf Hero" 
+          <img
+            src="/assets/hero_golf_ball.png"
+            alt="Golf Hero"
             fetchPriority="high"
             className="w-full h-full object-cover opacity-60 transition-all duration-1000"
           />
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full mb-8 backdrop-blur-sm"
@@ -28,7 +28,7 @@ export default function Home() {
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">The Elite Player Network</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -38,30 +38,30 @@ export default function Home() {
             <span className="text-emerald-500 text-shadow-glow">THE GREEN</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             className="text-zinc-200 text-lg sm:text-2xl max-w-2xl mx-auto mb-12 font-medium leading-tight drop-shadow-lg"
           >
-            Elevate your game with the ultimate Stableford tracking platform. 
+            Elevate your game with the ultimate Stableford tracking platform.
             Real-time leaderboards, Rolling 5 averages, and monthly prize draws.
           </motion.p>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center"
           >
-            <Link 
+            <Link
               href="/dashboard"
               className="bg-emerald-500 text-black px-12 py-5 rounded-full font-black flex items-center justify-center gap-3 transition-all hover:bg-white hover:scale-105 active:scale-95 group shadow-2xl shadow-emerald-500/40"
             >
-              LEVEL UP NOW 
+              LEVEL UP NOW
               <Zap size={20} className="fill-black group-hover:animate-pulse" />
             </Link>
-            <Link 
+            <Link
               href="/login"
               className="bg-white/5 backdrop-blur-md border border-white/10 px-12 py-5 rounded-full font-black transition-all hover:bg-white/10"
             >
@@ -73,31 +73,27 @@ export default function Home() {
 
       <section className="px-6 pb-32 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
-          <BentoCard 
+          <BentoCard
             className="md:col-span-2 md:row-span-2 bg-zinc-900/50 border-zinc-800"
-            icon={<Target size={32} className="text-emerald-500" />}
             title="Rolling 5 System"
             desc="Only your last 5 rounds define your current standing. Dynamic, fair, and fiercely competitive."
             badge="LIVE ALGORITHM"
             imageUrl="/assets/rolling_5_tech.png"
           />
-          <BentoCard 
+          <BentoCard
             className="md:col-span-2 bg-emerald-950/20 border-emerald-500/20"
-            icon={<Trophy size={32} className="text-emerald-500" />}
             title="£10,000 Monthly Pot"
             desc="Every qualified player enters the automatic month-end draw. Top 3 scorers win guaranteed cash."
             badge="GUARANTEED"
           />
-          <BentoCard 
+          <BentoCard
             className="bg-zinc-900/50 border-zinc-800"
-            icon={<Globe size={32} className="text-zinc-500" />}
             title="Global Rank"
             desc="Face off against the world's best golfers."
             imageUrl="/assets/global_rank_tech.png"
           />
-          <BentoCard 
+          <BentoCard
             className="bg-zinc-900/50 border-zinc-800"
-            icon={<Users size={32} className="text-zinc-500" />}
             title="Community"
             desc="Network with elite enthusiasts."
             imageUrl="/assets/community_tech.png"
@@ -119,7 +115,7 @@ export default function Home() {
           <div className="absolute bottom-10 left-[45%] w-1 h-32 bg-zinc-800" />
           <div className="absolute bottom-[130px] left-[45%] w-12 h-8 bg-emerald-500 rounded-sm skew-y-12 shadow-[0_0_20px_rgba(16,185,129,0.3)]" />
         </div>
-        
+
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-12 relative z-10 text-center md:text-left">
           <div className="md:col-span-2 space-y-8">
             <div className="flex items-center justify-center md:justify-start gap-4">
@@ -138,8 +134,8 @@ export default function Home() {
               </div>
             </div>
             <div className="flex justify-center md:justify-start gap-4">
-               <FooterSocial icon={<Globe size={20} />} />
-               <FooterSocial icon={<Users size={20} />} />
+              <FooterSocial icon={<Globe size={20} />} />
+              <FooterSocial icon={<Users size={20} />} />
             </div>
           </div>
 
@@ -169,18 +165,18 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
-          <p className="text-zinc-600 text-[9px] font-black uppercase tracking-[0.5em]">
+          <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.25em]">
             © 2026 GOLF HERO. BUILT FOR THE MODERN CHAMPION.
           </p>
           <div className="flex gap-10 items-center">
-             <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-30 hover:opacity-100 cursor-default">
-               <ShieldCheck size={14} className="text-emerald-500" />
-               <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">VERIFIED NETWORK</span>
-             </div>
-             <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-30 hover:opacity-100 cursor-default">
-               <Target size={14} className="text-emerald-500" />
-               <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">PRECISION TRACKED</span>
-             </div>
+            <div className="flex items-center gap-2 transition-all hover:scale-110 cursor-default group">
+              <ShieldCheck size={16} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-200 group-hover:text-emerald-400 transition-colors">VERIFIED NETWORK</span>
+            </div>
+            <div className="flex items-center gap-2 transition-all hover:scale-110 cursor-default group">
+              <Target size={16} className="text-emerald-500 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-200 group-hover:text-emerald-400 transition-colors">PRECISION TRACKED</span>
+            </div>
           </div>
         </div>
       </footer>
@@ -209,17 +205,17 @@ function FooterSocial({ icon }: any) {
   );
 }
 
-function BentoCard({ className, icon, title, desc, badge, imageUrl }: any) {
+function BentoCard({ className, title, desc, badge, imageUrl }: any) {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
       className={`relative p-8 rounded-[2.5rem] border overflow-hidden flex flex-col justify-end group transition-colors min-h-[300px] ${className}`}
     >
       {imageUrl && (
         <div className="absolute inset-0 z-0">
-          <img 
-            src={imageUrl} 
-            alt={title} 
+          <img
+            src={imageUrl}
+            alt={title}
             className="w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
@@ -231,7 +227,6 @@ function BentoCard({ className, icon, title, desc, badge, imageUrl }: any) {
         </span>
       )}
       <div className="relative z-10">
-        <div className="mb-6 group-hover:scale-110 transition-transform origin-left">{icon}</div>
         <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-3 leading-none">{title}</h3>
         <p className="text-zinc-200 text-sm font-medium leading-relaxed max-w-[280px] drop-shadow-md">{desc}</p>
       </div>
