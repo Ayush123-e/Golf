@@ -1,11 +1,12 @@
 import DashboardHeader from '@/components/dashboard/Header';
 import RollingScores from '@/components/dashboard/RollingScores';
 import PrizeStats from '@/components/dashboard/PrizeStats';
-import { createClient } from '@server/lib/supabase';
+import { createClient } from '@/lib/supabase';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user;
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -14,7 +15,7 @@ export default async function DashboardPage() {
     .single();
 
   return (
-    <div className="max-w-md mx-auto min-h-screen bg-black flex flex-col pt-4">
+    <div className="min-h-screen bg-black flex flex-col pt-4">
       <DashboardHeader user={profile} />
       
       <div className="mt-2 text-center mb-8 px-6">
