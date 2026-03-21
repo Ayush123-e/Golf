@@ -79,6 +79,7 @@ export default function Home() {
             title="Rolling 5 System"
             desc="Only your last 5 rounds define your current standing. Dynamic, fair, and fiercely competitive."
             badge="LIVE ALGORITHM"
+            imageUrl="/assets/rolling_5_tech.png"
           />
           <BentoCard 
             className="md:col-span-2 bg-emerald-950/20 border-emerald-500/20"
@@ -92,12 +93,14 @@ export default function Home() {
             icon={<Globe size={32} className="text-zinc-500" />}
             title="Global Rank"
             desc="Face off against the world's best golfers."
+            imageUrl="/assets/global_rank_tech.png"
           />
           <BentoCard 
             className="bg-zinc-900/50 border-zinc-800"
             icon={<Users size={32} className="text-zinc-500" />}
             title="Community"
             desc="Network with elite enthusiasts."
+            imageUrl="/assets/community_tech.png"
           />
         </div>
       </section>
@@ -188,11 +191,11 @@ export default function Home() {
 function FooterLink({ href, icon, children }: any) {
   return (
     <li>
-      <Link href={href} className="flex items-center gap-3 text-xs font-black text-zinc-500 hover:text-emerald-400 group transition-all text-left">
-        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-black transition-all flex-shrink-0">
+      <Link href={href} className="flex items-center gap-4 text-xs font-black text-zinc-500 hover:text-white group transition-all text-left group">
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-black group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 flex-shrink-0">
           {icon}
         </div>
-        {children}
+        <span className="group-hover:translate-x-1 transition-transform">{children}</span>
       </Link>
     </li>
   );
@@ -200,26 +203,38 @@ function FooterLink({ href, icon, children }: any) {
 
 function FooterSocial({ icon }: any) {
   return (
-    <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-500 hover:text-black hover:-translate-y-1 transition-all cursor-pointer group shadow-xl hover:shadow-emerald-500/20">
+    <div className="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-500 hover:text-black hover:-translate-y-2 hover:scale-110 hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all duration-300 cursor-pointer group shadow-xl">
       {icon}
     </div>
   );
 }
 
-function BentoCard({ className, icon, title, desc, badge }: any) {
+function BentoCard({ className, icon, title, desc, badge, imageUrl }: any) {
   return (
     <motion.div 
       whileHover={{ y: -5 }}
-      className={`relative p-8 rounded-[2.5rem] border overflow-hidden flex flex-col justify-end group transition-colors ${className}`}
+      className={`relative p-8 rounded-[2.5rem] border overflow-hidden flex flex-col justify-end group transition-colors min-h-[300px] ${className}`}
     >
+      {imageUrl && (
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={imageUrl} 
+            alt={title} 
+            className="w-full h-full object-cover opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent" />
+        </div>
+      )}
       {badge && (
-        <span className="absolute top-8 right-8 text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full">
+        <span className="absolute top-8 right-8 text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full z-10">
           {badge}
         </span>
       )}
-      <div className="mb-6 group-hover:scale-110 transition-transform origin-left">{icon}</div>
-      <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-3">{title}</h3>
-      <p className="text-zinc-200 text-sm font-medium leading-relaxed max-w-[280px] drop-shadow-md">{desc}</p>
+      <div className="relative z-10">
+        <div className="mb-6 group-hover:scale-110 transition-transform origin-left">{icon}</div>
+        <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-3 leading-none">{title}</h3>
+        <p className="text-zinc-200 text-sm font-medium leading-relaxed max-w-[280px] drop-shadow-md">{desc}</p>
+      </div>
     </motion.div>
   );
 }
