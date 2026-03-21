@@ -1,89 +1,225 @@
+"use client";
+
 import Link from "next/link";
-import { Trophy, ArrowRight, ShieldCheck, Target } from "lucide-react";
+import { Trophy, ArrowRight, ShieldCheck, Target, Zap, Globe, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 overflow-hidden relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
-      
-      <nav className="relative z-10 flex items-center justify-between p-6 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <Trophy className="text-black" size={16} />
-          </div>
-          <span className="font-bold text-lg tracking-tight">GOLF<span className="text-emerald-500">HERO</span></span>
-        </div>
-        <Link 
-          href="/dashboard"
-          className="text-sm font-medium hover:text-emerald-400 transition-colors"
-        >
-          Sign In
-        </Link>
-      </nav>
-
-      <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20 pb-32 max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-8">
-          <ShieldCheck size={14} className="text-emerald-400" />
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-400">Trusted by 5,000+ Golfers</span>
+    <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 overflow-x-hidden relative">
+      <section className="relative h-[90vh] flex flex-col items-center justify-center pt-20">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/assets/hero_golf_ball.png" 
+            alt="Golf Hero" 
+            fetchPriority="high"
+            className="w-full h-full object-cover opacity-60 transition-all duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         </div>
 
-        <h1 className="text-5xl sm:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-[0.9]">
-          The Elite <br />
-          <span className="text-emerald-500">Stableford</span> <br />
-          Network
-        </h1>
-        
-        <p className="text-zinc-400 text-lg sm:text-xl max-w-xl mb-12 font-medium">
-          Track your Rolling 5, compete on global leaderboards, and enter monthly draws to win real prize pools.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-          <Link 
-            href="/dashboard"
-            className="bg-emerald-500 text-black px-10 py-4 rounded-2xl font-black flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/20 transition-all hover:scale-105 active:scale-95 group"
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full mb-8 backdrop-blur-sm"
           >
-            GET STARTED 
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <button className="bg-white/5 border border-white/10 px-10 py-4 rounded-2xl font-black hover:bg-white/10 transition-all">
-            LEARN MORE
-          </button>
+            <ShieldCheck size={14} className="text-emerald-400" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">The Elite Player Network</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-6xl sm:text-9xl font-black italic tracking-tighter uppercase mb-6 leading-[0.8] mix-blend-difference"
+          >
+            MASTER <br />
+            <span className="text-emerald-500 text-shadow-glow">THE GREEN</span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-zinc-200 text-lg sm:text-2xl max-w-2xl mx-auto mb-12 font-medium leading-tight drop-shadow-lg"
+          >
+            Elevate your game with the ultimate Stableford tracking platform. 
+            Real-time leaderboards, Rolling 5 averages, and monthly prize draws.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center"
+          >
+            <Link 
+              href="/dashboard"
+              className="bg-emerald-500 text-black px-12 py-5 rounded-full font-black flex items-center justify-center gap-3 transition-all hover:bg-white hover:scale-105 active:scale-95 group shadow-2xl shadow-emerald-500/40"
+            >
+              LEVEL UP NOW 
+              <Zap size={20} className="fill-black group-hover:animate-pulse" />
+            </Link>
+            <Link 
+              href="/login"
+              className="bg-white/5 backdrop-blur-md border border-white/10 px-12 py-5 rounded-full font-black transition-all hover:bg-white/10"
+            >
+              MEMBERS SIGN IN
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="px-6 pb-32 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
+          <BentoCard 
+            className="md:col-span-2 md:row-span-2 bg-zinc-900/50 border-zinc-800"
+            icon={<Target size={32} className="text-emerald-500" />}
+            title="Rolling 5 System"
+            desc="Only your last 5 rounds define your current standing. Dynamic, fair, and fiercely competitive."
+            badge="LIVE ALGORITHM"
+          />
+          <BentoCard 
+            className="md:col-span-2 bg-emerald-950/20 border-emerald-500/20"
+            icon={<Trophy size={32} className="text-emerald-500" />}
+            title="£10,000 Monthly Pot"
+            desc="Every qualified player enters the automatic month-end draw. Top 3 scorers win guaranteed cash."
+            badge="GUARANTEED"
+          />
+          <BentoCard 
+            className="bg-zinc-900/50 border-zinc-800"
+            icon={<Globe size={32} className="text-zinc-500" />}
+            title="Global Rank"
+            desc="Face off against the world's best golfers."
+          />
+          <BentoCard 
+            className="bg-zinc-900/50 border-zinc-800"
+            icon={<Users size={32} className="text-zinc-500" />}
+            title="Community"
+            desc="Network with elite enthusiasts."
+          />
+        </div>
+      </section>
+
+      <footer className="border-t border-white/5 py-32 px-6 relative bg-black overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-full h-64 pointer-events-none opacity-20">
+          <svg viewBox="0 0 1200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 w-full h-auto">
+            <path d="M0 200V150C200 120 400 180 600 140C800 100 1000 160 1200 130V200H0Z" fill="url(#greenGradient)" />
+            <defs>
+              <linearGradient id="greenGradient" x1="600" y1="100" x2="600" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#10b981" />
+                <stop offset="1" stopColor="black" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="absolute bottom-10 left-[45%] w-1 h-32 bg-zinc-800" />
+          <div className="absolute bottom-[130px] left-[45%] w-12 h-8 bg-emerald-500 rounded-sm skew-y-12 shadow-[0_0_20px_rgba(16,185,129,0.3)]" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-12 relative z-10 text-center md:text-left">
+          <div className="md:col-span-2 space-y-8">
+            <div className="flex items-center justify-center md:justify-start gap-4">
+              <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-emerald-500/40 rotate-3">
+                <Trophy size={28} className="text-black" />
+              </div>
+              <span className="font-black text-5xl italic tracking-tighter uppercase leading-none">GOLF<span className="text-emerald-500">HERO</span></span>
+            </div>
+            <div className="bg-white/5 border border-white/10 p-6 rounded-3xl backdrop-blur-md max-w-md">
+              <p className="text-zinc-300 text-sm font-medium leading-relaxed mb-4">
+                Elevating the game of golf through precision tracking and the world's most trusted elite Stableford network.
+              </p>
+              <div className="flex items-center gap-2 text-emerald-500">
+                <ShieldCheck size={16} />
+                <span className="font-black text-[10px] uppercase tracking-widest">Verified Championship Platform</span>
+              </div>
+            </div>
+            <div className="flex justify-center md:justify-start gap-4">
+               <FooterSocial icon={<Globe size={20} />} />
+               <FooterSocial icon={<Users size={20} />} />
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <h4 className="text-xs font-black uppercase tracking-[0.4em] text-emerald-500/50 flex items-center gap-2">
+              <div className="w-1 h-4 bg-emerald-500 rounded-full" />
+              Platform
+            </h4>
+            <ul className="space-y-6">
+              <FooterLink icon={<Target size={14} />} href="/dashboard">DASHBOARD</FooterLink>
+              <FooterLink icon={<Globe size={14} />} href="/leaderboard">LEADERBOARD</FooterLink>
+              <FooterLink icon={<Trophy size={14} />} href="/draws">MONTHLY DRAWS</FooterLink>
+            </ul>
+          </div>
+
+          <div className="space-y-8">
+            <h4 className="text-xs font-black uppercase tracking-[0.4em] text-emerald-500/50 flex items-center gap-2">
+              <div className="w-1 h-4 bg-emerald-500 rounded-full" />
+              The Network
+            </h4>
+            <ul className="space-y-6">
+              <FooterLink icon={<Users size={14} />} href="/community">COMMUNITY</FooterLink>
+              <FooterLink icon={<ShieldCheck size={14} />} href="/legal">TERMS OF PLAY</FooterLink>
+              <FooterLink icon={<ShieldCheck size={14} />} href="/privacy">PRIVACY SHIELD</FooterLink>
+            </ul>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-24 w-full border-t border-white/5 pt-12">
-          <FeatureCard 
-            icon={<Target size={20} />} 
-            title="Rolling 5" 
-            desc="Only your latest 5 rounds count toward your handicap."
-          />
-          <FeatureCard 
-            icon={<Trophy size={20} />} 
-            title="Cash Prizes" 
-            desc="Monthly prize pools distributed automatically to winners."
-          />
-          <FeatureCard 
-            icon={<ShieldCheck size={20} />} 
-            title="Global Rank" 
-            desc="See how you stack up against the best in the community."
-          />
+        <div className="max-w-7xl mx-auto mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+          <p className="text-zinc-600 text-[9px] font-black uppercase tracking-[0.5em]">
+            © 2026 GOLF HERO. BUILT FOR THE MODERN CHAMPION.
+          </p>
+          <div className="flex gap-10 items-center">
+             <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-30 hover:opacity-100 cursor-default">
+               <ShieldCheck size={14} className="text-emerald-500" />
+               <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">VERIFIED NETWORK</span>
+             </div>
+             <div className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-30 hover:opacity-100 cursor-default">
+               <Target size={14} className="text-emerald-500" />
+               <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">PRECISION TRACKED</span>
+             </div>
+          </div>
         </div>
-      </main>
-
-      <footer className="relative z-10 border-t border-white/5 py-12 px-6 text-center">
-        <p className="text-zinc-600 text-[10px] font-bold uppercase tracking-widest">
-          © 2026 GOLF HERO PLATFORM. ALL RIGHTS RESERVED.
-        </p>
       </footer>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
+function FooterLink({ href, icon, children }: any) {
   return (
-    <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-      <div className="text-emerald-500 mb-4">{icon}</div>
-      <h3 className="text-sm font-bold uppercase tracking-wider mb-2">{title}</h3>
-      <p className="text-zinc-500 text-xs leading-relaxed max-w-[200px]">{desc}</p>
+    <li>
+      <Link href={href} className="flex items-center gap-3 text-xs font-black text-zinc-500 hover:text-emerald-400 group transition-all text-left">
+        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-black transition-all flex-shrink-0">
+          {icon}
+        </div>
+        {children}
+      </Link>
+    </li>
+  );
+}
+
+function FooterSocial({ icon }: any) {
+  return (
+    <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-500 hover:text-black hover:-translate-y-1 transition-all cursor-pointer group shadow-xl hover:shadow-emerald-500/20">
+      {icon}
     </div>
+  );
+}
+
+function BentoCard({ className, icon, title, desc, badge }: any) {
+  return (
+    <motion.div 
+      whileHover={{ y: -5 }}
+      className={`relative p-8 rounded-[2.5rem] border overflow-hidden flex flex-col justify-end group transition-colors ${className}`}
+    >
+      {badge && (
+        <span className="absolute top-8 right-8 text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full">
+          {badge}
+        </span>
+      )}
+      <div className="mb-6 group-hover:scale-110 transition-transform origin-left">{icon}</div>
+      <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-3">{title}</h3>
+      <p className="text-zinc-200 text-sm font-medium leading-relaxed max-w-[280px] drop-shadow-md">{desc}</p>
+    </motion.div>
   );
 }
