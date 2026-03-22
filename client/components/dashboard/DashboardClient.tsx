@@ -105,7 +105,7 @@ export default function DashboardClient({
         </div>
       )}
 
-      {React.cloneElement(prizeStats as React.ReactElement, { currencySymbol } as any)}
+      {prizeStats}
 
       <div className="px-6 mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <MyCharityWidget charity={charity} />

@@ -4,9 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { User, Shield, Trophy, Heart, Calendar, Camera, Upload, CheckCircle, Zap, AlertCircle } from "lucide-react";
 import { updateProfile, uploadAvatar } from "@/actions/profile";
+import { useRouter } from "next/navigation";
 
 export default function ProfileClient({ profile, subscription, charity }: { profile: any; subscription: any; charity: any }) {
+  const router = useRouter();
   const [fullName, setFullName] = useState(profile?.full_name || "");
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -41,6 +44,8 @@ export default function ProfileClient({ profile, subscription, charity }: { prof
       setError(res.error);
     } else {
       setSuccess(true);
+      if (res.url) setAvatarUrl(res.url);
+      router.refresh();
     }
     setUploading(false);
     setTimeout(() => {
@@ -58,8 +63,8 @@ export default function ProfileClient({ profile, subscription, charity }: { prof
         
         <div className="relative z-10">
           <div className="w-48 h-48 rounded-[3rem] bg-zinc-900 border-4 border-emerald-500 overflow-hidden relative shadow-[0_0_60px_rgba(16,185,129,0.3)]">
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-zinc-700">
                 <User size={80} />

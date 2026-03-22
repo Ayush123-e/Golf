@@ -59,7 +59,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
         charity={charitySelection?.charity}
         drawsEntered={drawsEntered || 0}
         rollingScores={<RollingScores />}
-        prizeStats={<PrizeStats />}
+        prizeStats={<PrizeStats currencySymbol={subscription?.plan?.includes('INR') || subscription?.plan_region === 'india' ? '₹' : '£'} />}
         howItWorks={<HowItWorks />}
         charityHighlights={<CharityHighlights />}
         subscribeCta={

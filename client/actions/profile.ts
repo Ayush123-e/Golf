@@ -47,14 +47,15 @@ export async function uploadAvatar(formData: FormData) {
     .from('avatars')
     .getPublicUrl(filePath);
 
+  const versionedUrl = `${publicUrl}?v=${Date.now()}`;
+
   const { error: updateError } = await supabase
     .from('profiles')
-    .update({ avatar_url: publicUrl })
-    .eq('id', user.id);
+    .upsert({ id: user.id, avatar_url: versionedUrl }, { onConflict: 'id' });
 
   if (updateError) return { error: updateError.message };
 
   revalidatePath('/dashboard');
   revalidatePath('/dashboard/profile');
-  return { success: true, url: publicUrl };
+  return { success: true, url: versionedUrl };
 }
