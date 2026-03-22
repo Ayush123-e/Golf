@@ -13,6 +13,7 @@
     "next": "^16.2.0"
   },
   "devDependencies": {
+    "@types/node": "^25.5.0",
     "tsx": "^4.19.3",
     "typescript": "^5.0.0"
   }

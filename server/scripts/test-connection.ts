@@ -1,8 +1,9 @@
+/* cspell:ignore supabase SUPABASE */
 import { createClient } from '@supabase/supabase-js';
 
 async function test() {
   console.log('--- GOLF BACKEND: DATABASE CONNECTION TEST ---');
-  
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -14,15 +15,15 @@ async function test() {
 
   if (error) {
     if (error.message.includes('fetch')) {
-      console.error('❌ Connection Failed: Could not reach Supabase. Check your NEXT_PUBLIC_SUPABASE_URL.');
+      console.error(' Connection Failed: Could not reach Supabase. Check your NEXT_PUBLIC_SUPABASE_URL.');
     } else {
-      console.error('❌ Connection Failed:', error.message);
+      console.error(' Connection Failed:', error.message);
     }
     process.exit(1);
   }
 
-  console.log('✅ Connection Successful!');
-  console.log('📊 Active Profiles Count:', count);
+  console.log('Connection Successful!');
+  console.log('Active Profiles Count:', count);
   console.log('-------------------------------------------');
 }
 

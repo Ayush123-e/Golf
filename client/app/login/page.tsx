@@ -58,6 +58,14 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/assets/login_golf_bg.png"
+          alt="Golf Hero Login"
+          className="w-full h-full object-cover opacity-50 grayscale-[0.2]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-black/80 to-emerald-950/40" />
+      </div>
       <PremiumBackground />
 
       <motion.div 
