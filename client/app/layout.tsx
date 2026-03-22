@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
-import Navigation from "../components/navigation/Navigation";
 import PremiumBackground from "../components/ui/PremiumBackground";
+import MainLayout from "../components/navigation/MainLayout";
 import { createClient } from "@/lib/supabase";
 
 const inter = Inter({
@@ -34,10 +34,9 @@ export default async function RootLayout({
       <body className={`${inter.className} min-h-full bg-black text-white flex flex-col`}>
         <ThemeProvider>
           <PremiumBackground />
-          {user && <Navigation />}
-          <main className={`${user ? "md:ml-64" : ""} flex-1 pb-24 md:pb-0 min-h-screen relative z-10`}>
+          <MainLayout user={user}>
             {children}
-          </main>
+          </MainLayout>
         </ThemeProvider>
       </body>
     </html>

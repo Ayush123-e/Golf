@@ -1,9 +1,14 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function PremiumBackground() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
     <div className="fixed inset-0 z-0 bg-transparent pointer-events-none overflow-hidden">
       {/* Topographic/Course Elevation Lines (Animated) - INCREASED VISIBILITY */}
@@ -56,7 +61,7 @@ export default function PremiumBackground() {
       />
 
       {/* Floating Interactive Particles - BRIGHTER */}
-      {[...Array(10)].map((_, i) => (
+      {isMounted && [...Array(10)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 bg-emerald-400 rounded-full shadow-[0_0_15px_#10b981]"
