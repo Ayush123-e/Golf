@@ -21,7 +21,7 @@ export default async function DrawsPage() {
     .single();
 
   const { currentDraw } = await getDrawStatus();
-  const { entry } = currentDraw ? await getUserEntry(currentDraw.id) : { entry: null };
+  const { entry, winner } = currentDraw ? await getUserEntry(currentDraw.id) : { entry: null, winner: null };
 
   const isAdmin = profile?.role === 'admin';
 
@@ -52,6 +52,7 @@ export default async function DrawsPage() {
           <div className="md:col-span-8">
             <UserDrawEntry 
               entry={entry} 
+              winner={winner}
               drawNumbers={currentDraw?.draw_numbers || []} 
               isPublished={currentDraw?.is_published || false} 
             />

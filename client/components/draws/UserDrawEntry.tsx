@@ -5,11 +5,12 @@ import { Check, Dot } from "lucide-react";
 
 interface UserDrawEntryProps {
   entry: any;
+  winner?: any;
   drawNumbers: number[];
   isPublished: boolean;
 }
 
-export default function UserDrawEntry({ entry, drawNumbers, isPublished }: UserDrawEntryProps) {
+export default function UserDrawEntry({ entry, winner, drawNumbers, isPublished }: UserDrawEntryProps) {
   if (!entry) return (
     <div className="p-8 bg-zinc-900/50 border border-dashed border-zinc-800 rounded-3xl text-center">
        <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest italic">No entry detected for this month.</p>
@@ -60,17 +61,28 @@ export default function UserDrawEntry({ entry, drawNumbers, isPublished }: UserD
 
       {isPublished && matchCount >= 3 && (
         <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-10 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mt-10 p-6 bg-emerald-500 text-black rounded-[2rem] text-center shadow-[0_0_30px_rgba(16,185,129,0.3)]"
         >
-          <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">
-            Congratulations! You've matched {matchCount} numbers.
-          </p>
-          <p className="text-zinc-500 text-[9px] font-medium mt-1">
-            Check your profile for prize distribution details.
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1">Result Authenticated</p>
+          <h4 className="text-3xl font-black italic uppercase tracking-tighter">
+            YOU WON £{Math.floor(winner?.prize_amount || 0).toLocaleString()} 🎉
+          </h4>
+          <p className="text-[10px] font-bold uppercase mt-2 opacity-60">
+            {matchCount} Match Tier Share
           </p>
         </motion.div>
+      )}
+
+      {isPublished && matchCount < 3 && (
+        <div className="mt-10 p-8 bg-zinc-950/50 border border-white/5 rounded-[2rem] text-center">
+           <p className="text-zinc-400 text-xs font-bold uppercase mb-2">No win this time 😔</p>
+           <p className="text-zinc-600 text-[10px] font-medium italic uppercase tracking-widest leading-relaxed">
+             Persistence is the mark of a champion. <br />
+             Try again next month with your next 5 rounds!
+           </p>
+        </div>
       )}
     </div>
   );

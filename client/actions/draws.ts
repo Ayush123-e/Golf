@@ -29,12 +29,47 @@ export async function getUserEntry(drawId: string) {
     .eq('draw_id', drawId)
     .single();
 
-  return { entry };
+  const { data: winner } = await supabase
+    .from('winners')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('draw_id', drawId)
+    .single();
+
+  return { entry, winner };
 }
 
 export async function adminGenerateDrawNumbers(drawMonth: string) {
   const supabase = await createClient();
   
+  const { count: activeSubs } = await supabase
+    .from('subscriptions')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'active');
+
+  const { data: lastDraw } = await supabase
+    .from('draws')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  let jackpotCarry = 0;
+  if (lastDraw && lastDraw.is_published) {
+    const { count: fiveMatchWinners } = await supabase
+      .from('winners')
+      .select('*', { count: 'exact', head: true })
+      .eq('draw_id', lastDraw.id)
+      .eq('match_count', 5);
+
+    if (fiveMatchWinners === 0) {
+      jackpotCarry = lastDraw.total_pool * 0.40;
+    }
+  }
+
+  const basePool = (activeSubs || 0) * 10;
+  const totalPool = basePool + jackpotCarry;
+
   const numbers = new Set<number>();
   while (numbers.size < 5) {
     numbers.add(Math.floor(Math.random() * 45) + 1);
@@ -47,7 +82,8 @@ export async function adminGenerateDrawNumbers(drawMonth: string) {
       draw_month: drawMonth,
       draw_numbers: drawNumbers,
       draw_type: 'random',
-      total_prize_pool: 12500,
+      total_pool: totalPool,
+      jackpot_carry: jackpotCarry,
       is_published: false
     })
     .select()
@@ -116,9 +152,9 @@ export async function adminProcessWinners(drawId: string) {
 }
 
 function calculateTotalTierPrize(matches: number, draw: any) {
-  if (matches === 5) return draw.total_prize_pool * 0.40;
-  if (matches === 4) return draw.total_prize_pool * 0.35;
-  if (matches === 3) return draw.total_prize_pool * 0.25;
+  if (matches === 5) return draw.total_pool * 0.40;
+  if (matches === 4) return draw.total_pool * 0.35;
+  if (matches === 3) return draw.total_pool * 0.25;
   return 0;
 }
 
