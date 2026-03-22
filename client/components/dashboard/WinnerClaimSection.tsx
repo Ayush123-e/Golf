@@ -15,6 +15,11 @@ export default function WinnerClaimSection({ winner }: { winner: any }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File size exceeds 2MB limit. Please upload a smaller image.");
+      return;
+    }
+
     setUploading(true);
     setStatus("Uploading Proof...");
 

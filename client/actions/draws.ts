@@ -220,6 +220,9 @@ export async function uploadWinnerProof(winnerId: string, formData: FormData) {
 
 export async function adminVerifyWinner(winnerId: string, status: 'approved' | 'rejected') {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
+  if (profile?.role !== 'admin') return { error: "Permission denied" };
   
   const { error } = await supabase
     .from('winners')
@@ -238,6 +241,9 @@ export async function adminVerifyWinner(winnerId: string, status: 'approved' | '
 
 export async function adminMarkPaid(winnerId: string) {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
+  if (profile?.role !== 'admin') return { error: "Permission denied" };
   
   const { error } = await supabase
     .from('winners')
