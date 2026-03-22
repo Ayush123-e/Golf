@@ -5,11 +5,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import HeroPerformanceCard from "./HeroPerformanceCard";
 import ScoreEntryModal from "../scores/ScoreEntryModal";
 import { Check } from "lucide-react";
+import WinnerClaimSection from "./WinnerClaimSection";
 
 interface DashboardClientProps {
   profile: any;
   isSubscribed: boolean;
   sessionId?: string;
+  winner?: any;
   rollingScores: React.ReactNode;
   prizeStats: React.ReactNode;
   howItWorks: React.ReactNode;
@@ -20,7 +22,8 @@ interface DashboardClientProps {
 export default function DashboardClient({ 
   profile, 
   isSubscribed, 
-  sessionId, 
+  sessionId,
+  winner, 
   rollingScores, 
   prizeStats, 
   howItWorks, 
@@ -58,6 +61,10 @@ export default function DashboardClient({
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           Live Network Active
         </div>
+      </div>
+
+      <div className="px-6">
+        {winner && <WinnerClaimSection winner={winner} />}
       </div>
 
       {prizeStats}

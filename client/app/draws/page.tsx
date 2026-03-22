@@ -4,6 +4,7 @@ import DrawHero from "@/components/draws/DrawHero";
 import UserDrawEntry from "@/components/draws/UserDrawEntry";
 import PrizePoolInfo from "@/components/draws/PrizePoolInfo";
 import AdminDrawControl from "@/components/draws/AdminDrawControl";
+import AdminWinnerManager from "@/components/admin/AdminWinnerManager";
 import PremiumBackground from "@/components/ui/PremiumBackground";
 import { Trophy, Target, History } from "lucide-react";
 import Link from "next/link";
@@ -24,6 +25,10 @@ export default async function DrawsPage() {
   const { entry, winner } = currentDraw ? await getUserEntry(currentDraw.id) : { entry: null, winner: null };
 
   const isAdmin = profile?.role === 'admin';
+
+  const { data: allWinners } = isAdmin && currentDraw 
+    ? await supabase.from('winners').select('*').eq('draw_id', currentDraw.id)
+    : { data: [] };
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-hidden">
@@ -89,6 +94,10 @@ export default async function DrawsPage() {
             </Link>
           </div>
         </div>
+
+        {isAdmin && allWinners && allWinners.length > 0 && (
+          <AdminWinnerManager winners={allWinners} />
+        )}
       </div>
     </div>
   );

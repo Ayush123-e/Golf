@@ -29,6 +29,15 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
 
   const isSubscribed = !!subscription;
 
+  const { data: winner } = await supabase
+    .from('winners')
+    .select('*')
+    .eq('user_id', user?.id)
+    .in('status', ['pending', 'approved', 'rejected'])
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single();
+
   return (
     <div className="min-h-screen bg-black flex flex-col pt-4">
       <DashboardHeader user={profile} />
@@ -37,6 +46,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
         profile={profile}
         isSubscribed={isSubscribed}
         sessionId={session_id}
+        winner={winner}
         rollingScores={<RollingScores />}
         prizeStats={<PrizeStats />}
         howItWorks={<HowItWorks />}

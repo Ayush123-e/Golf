@@ -172,3 +172,81 @@ export async function adminPublishDraw(drawId: string) {
   revalidatePath('/dashboard');
   return { success: true };
 }
+export async function uploadWinnerProof(winnerId: string, formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const file = formData.get('file') as File;
+  if (!file) return { error: "No file provided" };
+
+  const { data: winner } = await supabase
+    .from('winners')
+    .select('*')
+    .eq('id', winnerId)
+    .single();
+
+  if (!winner || winner.user_id !== user.id) {
+    return { error: "Authorization failed" };
+  }
+
+  const fileExt = file.name.split('.').pop();
+  const filePath = `${winnerId}/${Date.now()}.${fileExt}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('proofs')
+    .upload(filePath, file);
+
+  if (uploadError) return { error: uploadError.message };
+
+  const { data: { publicUrl } } = supabase.storage
+    .from('proofs')
+    .getPublicUrl(filePath);
+
+  const { error: updateError } = await supabase
+    .from('winners')
+    .update({ 
+      proof_url: publicUrl,
+      status: 'pending' 
+    })
+    .eq('id', winnerId);
+
+  if (updateError) return { error: updateError.message };
+
+  revalidatePath('/dashboard');
+  revalidatePath('/draws');
+  return { success: true };
+}
+
+export async function adminVerifyWinner(winnerId: string, status: 'approved' | 'rejected') {
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from('winners')
+    .update({ 
+      status, 
+      verified_at: status === 'approved' ? new Date().toISOString() : null 
+    })
+    .eq('id', winnerId);
+
+  if (error) return { error: error.message };
+  
+  revalidatePath('/dashboard');
+  revalidatePath('/draws');
+  return { success: true };
+}
+
+export async function adminMarkPaid(winnerId: string) {
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from('winners')
+    .update({ status: 'paid' })
+    .eq('id', winnerId);
+
+  if (error) return { error: error.message };
+  
+  revalidatePath('/dashboard');
+  revalidatePath('/draws');
+  return { success: true };
+}
