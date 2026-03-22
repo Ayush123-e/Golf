@@ -29,7 +29,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
     .single();
 
   const isSubscribed = !!subscription;
-
+  
   const { data: winner } = await supabase
     .from('winners')
     .select('*')
@@ -38,6 +38,11 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
     .order('created_at', { ascending: false })
     .limit(1)
     .single();
+  
+  const { count: drawsEntered } = await supabase
+    .from('user_draw_entries')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user?.id);
 
   const { selection: charitySelection } = await getUserCharity();
 
@@ -52,6 +57,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
         sessionId={session_id}
         winner={winner}
         charity={charitySelection?.charity}
+        drawsEntered={drawsEntered || 0}
         rollingScores={<RollingScores />}
         prizeStats={<PrizeStats />}
         howItWorks={<HowItWorks />}

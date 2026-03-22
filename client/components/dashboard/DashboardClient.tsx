@@ -15,6 +15,7 @@ interface DashboardClientProps {
   sessionId?: string;
   winner?: any;
   charity?: any;
+  drawsEntered: number;
   rollingScores: React.ReactNode;
   prizeStats: React.ReactNode;
   howItWorks: React.ReactNode;
@@ -29,6 +30,7 @@ export default function DashboardClient({
   sessionId,
   winner, 
   charity,
+  drawsEntered,
   rollingScores, 
   prizeStats, 
   howItWorks, 
@@ -88,9 +90,16 @@ export default function DashboardClient({
               </div>
             </div>
             <div className="text-right">
-              <span className="px-3 py-1 bg-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase rounded-lg border border-emerald-500/20">
-                Active
-              </span>
+               <div className="mb-2">
+                <span className="px-3 py-1 bg-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase rounded-lg border border-emerald-500/20">
+                  Active
+                </span>
+               </div>
+               {subscription.end_date && (
+                <p className="text-[9px] font-black text-zinc-600 uppercase tracking-widest">
+                  Renews: {new Date(subscription.end_date).toLocaleDateString()}
+                </p>
+               )}
             </div>
           </div>
         </div>
@@ -98,8 +107,23 @@ export default function DashboardClient({
 
       {React.cloneElement(prizeStats as React.ReactElement, { currencySymbol } as any)}
 
-      <div className="px-6 mt-8">
+      <div className="px-6 mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <MyCharityWidget charity={charity} />
+        {isSubscribed && (
+          <div className="p-8 bg-zinc-900/50 border border-white/5 rounded-[2.5rem] flex flex-col justify-center">
+            <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-4">Participation Summary</p>
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="text-4xl font-black italic text-white tracking-tighter uppercase">{drawsEntered}</p>
+                <p className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Draws Entered</p>
+              </div>
+              <div className="text-right">
+                <p className="text-xl font-black italic text-zinc-400 tracking-tighter uppercase">Unlimited</p>
+                <p className="text-[9px] font-black text-zinc-600 uppercase tracking-widest">Member Access</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {isSubscribed ? (
