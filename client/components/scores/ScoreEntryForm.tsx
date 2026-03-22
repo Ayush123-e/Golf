@@ -27,7 +27,7 @@ export default function ScoreEntryForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 bg-zinc-900/50 p-6 rounded-3xl border border-zinc-800 backdrop-blur-md">
-      {/* Score Picker */}
+
       <div className="text-center">
         <label className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Stableford Points</label>
         <div className="flex items-center justify-center gap-8 mt-6">
@@ -50,7 +50,7 @@ export default function ScoreEntryForm() {
       </div>
 
       <div className="space-y-6">
-        {/* Date Input */}
+
         <div className="space-y-2">
           <label className="text-zinc-500 text-[10px] font-black uppercase tracking-widest ml-2">Round Date</label>
           <div className="relative group">
@@ -64,7 +64,7 @@ export default function ScoreEntryForm() {
           </div>
         </div>
 
-        {/* Submit Button */}
+
         <button 
           disabled={loading}
           className="w-full bg-emerald-500 hover:bg-white disabled:opacity-50 text-black font-black py-6 rounded-2xl transition-all flex items-center justify-center gap-3 group shadow-2xl shadow-emerald-500/20 active:scale-[0.98]"

@@ -28,16 +28,48 @@ export async function POST(req: Request) {
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object as Stripe.Checkout.Session;
-      const userId = session.metadata?.userId;
+      const { userId, charityId, percentage, phone, plan } = session.metadata || {};
+
+      if (!userId) break;
+
+
+      await supabase
+        .from('profiles')
+        .update({
+          phone_number: phone,
+          is_profile_complete: true,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', userId);
+
+
+      await supabase
+        .from('subscriptions')
+        .update({ status: 'inactive' })
+        .eq('user_id', userId)
+        .eq('status', 'active');
+
 
       await supabase
         .from('subscriptions')
         .insert({
           user_id: userId,
-          plan: session.metadata?.plan,
+          plan: plan,
           status: 'active',
           start_date: new Date().toISOString(),
         });
+
+
+      if (charityId) {
+        await supabase
+          .from('user_charities')
+          .upsert({
+            user_id: userId,
+            charity_id: charityId,
+            percentage: parseInt(percentage || "10"),
+            updated_at: new Date().toISOString(),
+          }, { onConflict: 'user_id' });
+      }
       break;
 
     case 'customer.subscription.deleted':

@@ -117,7 +117,6 @@ create trigger update_winners_updated_at before update on winners for each row e
 create or replace function maintain_rolling_five_scores()
 returns trigger as $$
 begin
-
     delete from scores
     where user_id = new.user_id
     and id not in (

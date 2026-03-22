@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import Navigation from "./Navigation";
-import PublicHeader from "./PublicHeader";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -16,7 +15,6 @@ export default function MainLayout({ children, user }: MainLayoutProps) {
 
   return (
     <>
-      <PublicHeader />
       {user && <Navigation />}
       <main className={`${showSidebar ? "md:ml-64" : ""} flex-1 min-h-screen relative z-10`}>
         {children}

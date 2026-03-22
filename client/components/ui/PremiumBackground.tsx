@@ -11,7 +11,7 @@ export default function PremiumBackground() {
   }, []);
   return (
     <div className="fixed inset-0 z-0 bg-transparent pointer-events-none overflow-hidden">
-      {/* Topographic/Course Elevation Lines (Animated) - INCREASED VISIBILITY */}
+
       <svg className="absolute inset-0 w-full h-full opacity-[0.2] pointer-events-none" xmlns="http://www.w3.org/2000/svg">
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="blur" />
@@ -48,11 +48,11 @@ export default function PremiumBackground() {
         />
       </svg>
       
-      {/* Background Glows (Mesh) - INCREASED INTENSITY */}
+
       <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-emerald-500/15 blur-[120px] rounded-full animate-mesh opacity-40" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-emerald-900/20 blur-[100px] rounded-full animate-mesh opacity-30 [animation-delay:-7s]" />
       
-      {/* HUD Grid Pattern - MORE VISIBLE */}
+
       <div className="absolute inset-0 opacity-[0.08]" 
            style={{ 
              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10l5 5m90 90l-5-5' stroke='%2310b981' stroke-width='1' fill='none'/%3E%3C/svg%3E")`,
@@ -60,7 +60,7 @@ export default function PremiumBackground() {
            }} 
       />
 
-      {/* Floating Interactive Particles - BRIGHTER */}
+
       {isMounted && [...Array(10)].map((_, i) => (
         <motion.div
           key={i}

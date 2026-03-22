@@ -5,7 +5,7 @@ import { Trophy, Crown, Medal } from "lucide-react";
 export default function LeaderboardPodium({ topThree }: { topThree: any[] }) {
   if (!topThree || topThree.length === 0) return null;
 
-  // Ensure we have exactly 3 slots for the podium layout [2, 1, 3]
+
   const slots = [
     { p: topThree[1], rank: 2, height: "h-32 md:h-48", color: "bg-zinc-400/10", border: "border-zinc-400/20", icon: <Medal className="text-zinc-400" /> },
     { p: topThree[0], rank: 1, height: "h-48 md:h-64", color: "bg-emerald-500/10", border: "border-emerald-500/30", icon: <Crown size={32} className="text-emerald-400 drop-shadow-glow" />, glow: true },
@@ -36,7 +36,7 @@ export default function LeaderboardPodium({ topThree }: { topThree: any[] }) {
               <span className="text-lg md:text-2xl font-black italic text-white">{slot.p.rolling_avg || 0}</span>
             </div>
           ) : (
-            <div className="h-20" /> // Spacer for empty slots
+            <div className="h-20" />
           )}
           
           <div className={`w-full ${slot.height} ${slot.color} border-t border-x ${slot.border} rounded-t-3xl relative overflow-hidden group`}>
