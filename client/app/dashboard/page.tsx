@@ -5,6 +5,7 @@ import HowItWorks from '@/components/dashboard/HowItWorks';
 import CharityHighlights from '@/components/dashboard/CharityHighlights';
 import DashboardClient from '@/components/dashboard/DashboardClient';
 import { createClient } from '@/lib/supabase';
+import { getUserCharity } from '@/actions/charities';
 import { Zap } from 'lucide-react';
 import Link from 'next/link';
 
@@ -38,6 +39,8 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
     .limit(1)
     .single();
 
+  const { selection: charitySelection } = await getUserCharity();
+
   return (
     <div className="min-h-screen bg-black flex flex-col pt-4">
       <DashboardHeader user={profile} />
@@ -47,6 +50,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
         isSubscribed={isSubscribed}
         sessionId={session_id}
         winner={winner}
+        charity={charitySelection?.charity}
         rollingScores={<RollingScores />}
         prizeStats={<PrizeStats />}
         howItWorks={<HowItWorks />}

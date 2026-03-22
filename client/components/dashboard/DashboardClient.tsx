@@ -6,12 +6,14 @@ import HeroPerformanceCard from "./HeroPerformanceCard";
 import ScoreEntryModal from "../scores/ScoreEntryModal";
 import { Check } from "lucide-react";
 import WinnerClaimSection from "./WinnerClaimSection";
+import MyCharityWidget from "./MyCharityWidget";
 
 interface DashboardClientProps {
   profile: any;
   isSubscribed: boolean;
   sessionId?: string;
   winner?: any;
+  charity?: any;
   rollingScores: React.ReactNode;
   prizeStats: React.ReactNode;
   howItWorks: React.ReactNode;
@@ -24,6 +26,7 @@ export default function DashboardClient({
   isSubscribed, 
   sessionId,
   winner, 
+  charity,
   rollingScores, 
   prizeStats, 
   howItWorks, 
@@ -68,6 +71,10 @@ export default function DashboardClient({
       </div>
 
       {prizeStats}
+
+      <div className="px-6 mt-8">
+        <MyCharityWidget charity={charity} />
+      </div>
 
       {isSubscribed ? (
         <>
