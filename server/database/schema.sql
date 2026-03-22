@@ -1,10 +1,9 @@
 create table profiles (
   id uuid primary key references auth.users(id) on delete cascade,
-  full_name text,
-  phone text,
-  avatar_url text,
+  full_name text, 
+  avatar_url text, 
   role text DEFAULT 'subscriber' CHECK (role in ('subscriber', 'admin')),
-  is_active_subscriber boolean default false,
+  is_profile_complete boolean default false,
   created_at timestamp default now(),
   updated_at timestamp default now()
 );

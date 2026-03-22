@@ -2,6 +2,7 @@ import DashboardHeader from '@/components/dashboard/Header';
 import RollingScores from '@/components/dashboard/RollingScores';
 import PrizeStats from '@/components/dashboard/PrizeStats';
 import { createClient } from '@/lib/supabase';
+import Link from 'next/link';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -32,9 +33,12 @@ export default async function DashboardPage() {
       </div>
 
       <div className="px-6 mt-8 mb-12 flex-1 flex flex-col justify-end">
-        <button className="w-full bg-white text-black font-black py-5 rounded-3xl active:scale-95 transition-all shadow-xl shadow-white/5 hover:bg-zinc-200">
+        <Link 
+          href="/scores/new"
+          className="w-full bg-white text-black font-black py-5 rounded-3xl active:scale-95 transition-all shadow-xl shadow-white/5 hover:bg-emerald-500 flex items-center justify-center gap-3 group uppercase tracking-widest text-xs"
+        >
           ENTER TODAY'S SCORE
-        </button>
+        </Link>
       </div>
     </div>
   );

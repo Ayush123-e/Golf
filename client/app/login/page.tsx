@@ -1,73 +1,177 @@
 "use client";
 
+import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { motion, AnimatePresence } from "framer-motion";
+import { Trophy, Mail, Lock, Key, ArrowRight, ShieldCheck, Zap, Fingerprint } from "lucide-react";
 import Link from "next/link";
-import { Trophy, ArrowRight, ShieldCheck, Mail, Lock, Zap } from "lucide-react";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null);
+
+    const { error } = isSignUp 
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+      setLoading(false);
+    } else {
+      if (isSignUp) {
+        setMessage({ type: "success", text: "Check your email to confirm your account!" });
+      } else {
+        router.push("/dashboard");
+      }
+    }
+  };
+
+  const handleMagicLink = async () => {
+    setLoading(true);
+    setMessage(null);
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+    } else {
+      setMessage({ type: "success", text: "Magic link sent to your email!" });
+    }
+    setLoading(false);
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 overflow-hidden relative flex flex-col items-center justify-center px-6">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
-      
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <PremiumBackground />
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-md"
+        className="w-full max-w-md relative z-10"
       >
         <div className="flex flex-col items-center mb-12">
-          <Link href="/" className="mb-8 group">
-            <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-emerald-500/40 group-hover:rotate-6 transition-transform">
-              <Trophy size={32} className="text-black" />
+          <Link href="/" className="flex items-center gap-3 mb-8 group">
+            <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-emerald-500/40 group-hover:rotate-12 transition-transform duration-500">
+              <Trophy size={24} className="text-black" />
             </div>
+            <span className="font-black text-3xl italic tracking-tighter uppercase">GOLF<span className="text-emerald-500">HERO</span></span>
           </Link>
-          <h1 className="text-4xl font-black italic tracking-tighter uppercase mb-2">WELCOME <span className="text-emerald-500 text-shadow-glow">HERO</span></h1>
-          <p className="text-zinc-500 text-sm font-bold tracking-widest uppercase">The Network is Waiting</p>
+          
+          <div className="text-center">
+            <h1 className="text-4xl font-black italic uppercase tracking-tighter mb-2">
+              {isSignUp ? "Join the Elite" : "Welcome Hero"}
+            </h1>
+            <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">
+              {isSignUp ? "Start Your Championship Journey" : "The Network is Waiting"}
+            </p>
+          </div>
         </div>
 
-        <div className="bg-zinc-900 border border-white/10 p-8 rounded-[2.5rem] shadow-2xl shadow-emerald-500/5 relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-emerald-500/20 group-hover:bg-emerald-500 transition-colors" />
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none" />
           
-          <div className="space-y-6">
+          <form onSubmit={handleAuth} className="space-y-6 relative z-10">
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-4">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
+              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-2">Email Address</label>
+              <div className="relative group/input">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-emerald-500 transition-colors" size={18} />
                 <input 
                   type="email" 
-                  placeholder="name@golfhero.com" 
-                  className="w-full bg-black border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-sm font-medium focus:outline-none focus:border-emerald-500 transition-colors"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
+                  required
+                  className="w-full bg-black/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all font-medium placeholder:text-zinc-600" 
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-4">Member Key</label>
-              <div className="relative">
-                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
+              <div className="flex justify-between items-center ml-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Password</label>
+                {!isSignUp && (
+                  <button type="button" className="text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-emerald-400 transition-colors">Forgot?</button>
+                )}
+              </div>
+              <div className="relative group/input">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within/input:text-emerald-500 transition-colors" size={18} />
                 <input 
                   type="password" 
-                  placeholder="••••••••" 
-                  className="w-full bg-black border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-sm font-medium focus:outline-none focus:border-emerald-500 transition-colors"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••••••"
+                  required
+                  className="w-full bg-black/50 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all font-medium placeholder:text-zinc-600" 
                 />
               </div>
             </div>
 
-            <button className="w-full bg-emerald-500 text-black py-5 rounded-2xl font-black flex items-center justify-center gap-3 transition-all hover:bg-white hover:scale-[1.02] active:scale-95 group mt-8 shadow-xl shadow-emerald-500/20">
-              AUTHORIZE ACCESS 
-              <Zap size={20} className="fill-black group-hover:animate-pulse" />
+            <AnimatePresence>
+              {message && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className={`p-4 rounded-xl text-xs font-bold flex items-center gap-3 ${
+                    message.type === "success" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-red-500/10 text-red-400 border border-red-500/20"
+                  }`}
+                >
+                  <ShieldCheck size={16} />
+                  {message.text}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button 
+              type="submit"
+              disabled={loading}
+              className="w-full bg-emerald-500 text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
+            >
+              {loading ? "Authorizing..." : isSignUp ? "Create Account" : "Authorize Access"}
+              <Zap size={18} className="fill-black group-hover:animate-pulse" />
+            </button>
+
+            {!isSignUp && (
+              <button 
+                type="button"
+                onClick={handleMagicLink}
+                disabled={loading || !email}
+                className="w-full bg-white/5 border border-white/10 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3 text-[10px] disabled:opacity-30"
+              >
+                Send Magic Link
+              </button>
+            )}
+          </form>
+
+          <div className="mt-8 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
+            <button 
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-emerald-400 transition-colors"
+            >
+              {isSignUp ? "Already a Member? Sign In" : "New Champion? Join Now"}
             </button>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-6">
-          <p className="text-zinc-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-             <ShieldCheck size={14} className="text-emerald-500" />
-             Biometric Security Enabled
-          </p>
-          <Link href="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors underline underline-offset-4">
-            Back to Platform
-          </Link>
-        </div>
+        <p className="mt-8 text-center text-zinc-600 text-[9px] font-black uppercase tracking-[0.5em]">
+          Verified Championship Network • © 2026 GOLF HERO
+        </p>
       </motion.div>
     </div>
   );

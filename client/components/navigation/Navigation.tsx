@@ -6,6 +6,7 @@ import { Home, Trophy, PlusCircle, User, Settings } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
+  { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
   { name: 'Monthly Draw', href: '/draws', icon: Trophy },
   { name: 'Add Score', href: '/scores/new', icon: PlusCircle },
   { name: 'My Profile', href: '/profile', icon: User },
