@@ -32,11 +32,36 @@ export async function generateDraw(drawMonth: string, drawType: 'random' | 'algo
   const basePool = (activeSubs || 0) * 10;
   const totalPool = basePool + jackpotCarry;
 
-  const numbers = new Set<number>();
-  while (numbers.size < 5) {
-    numbers.add(Math.floor(Math.random() * 45) + 1);
+  let drawNumbers: number[] = [];
+  
+  if (drawType === 'algorithm') {
+    // Algorithmic: Weigh based on the MOST frequent scores submitted by users this month
+    // This makes the jackpot harder to win if many users pick the same scores
+    const { data: scoreFreq } = await supabase.rpc('get_score_frequencies');
+    const freqMap = new Map((scoreFreq as any[])?.map(f => [f.score, f.count]) || []);
+    
+    // Sort all possible numbers 1-45 by their popularity
+    const candidates = Array.from({ length: 45 }, (_, i) => i + 1)
+      .sort((a, b) => (freqMap.get(b) || 0) - (freqMap.get(a) || 0));
+    
+    // Pick a mix of high-frequency and random to ensure variance but favor frequency
+    const topCandidates = candidates.slice(0, 15);
+    const chosen = new Set<number>();
+    while (chosen.size < 3) {
+      chosen.add(topCandidates[Math.floor(Math.random() * topCandidates.length)]);
+    }
+    while (chosen.size < 5) {
+      chosen.add(Math.floor(Math.random() * 45) + 1);
+    }
+    drawNumbers = Array.from(chosen).sort((a, b) => a - b);
+  } else {
+    // Standard Random Lottery
+    const numbers = new Set<number>();
+    while (numbers.size < 5) {
+      numbers.add(Math.floor(Math.random() * 45) + 1);
+    }
+    drawNumbers = Array.from(numbers).sort((a, b) => a - b);
   }
-  const drawNumbers = Array.from(numbers).sort((a, b) => a - b);
 
   const { data: draw, error } = await supabase
     .from('draws')

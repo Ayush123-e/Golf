@@ -166,6 +166,58 @@ export default function LandingClient({ stats }: LandingClientProps) {
         </div>
       </section>
 
+      <section className="py-32 px-6 bg-zinc-900/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 text-emerald-500 text-[10px] font-black uppercase tracking-[0.4em] mb-6">
+                <Star size={14} className="fill-emerald-500" />
+                Featured Cause
+              </div>
+              <h2 className="text-5xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.85]">
+                SUPPORT THE <br />
+                <span className="text-emerald-500">NEXT GENERATION</span>
+              </h2>
+            </div>
+            <Link href="/charities" className="group flex items-center gap-4 text-xs font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
+              EXPLORE ALL CHARITIES
+              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-500 group-hover:text-black transition-all">
+                <ArrowRight size={20} />
+              </div>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 relative">
+               <div className="aspect-[16/9] rounded-[3rem] overflow-hidden border border-white/10 relative group">
+                  <img src="/assets/charity_spotlight.png" className="w-full h-full object-cover grayscale opacity-40 group-hover:scale-110 transition-transform duration-[3s]" alt="Charity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                  <div className="absolute bottom-10 left-10 p-10 backdrop-blur-2xl bg-black/40 border border-white/10 rounded-3xl max-w-md">
+                    <p className="text-sm text-white font-medium italic mb-4">"Developing the next generation of players through accessibility and world-class grassroots coaching."</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500">The Junior Golf Foundation • Spotlight Partner</p>
+                  </div>
+               </div>
+            </div>
+            <div className="lg:col-span-5 space-y-12">
+               <div>
+                  <h4 className="text-2xl font-black italic uppercase tracking-tighter mb-4 text-white">Your Impact Matters</h4>
+                  <p className="text-zinc-500 font-medium leading-relaxed">Choose a cause at checkout. A minimum of 10% of your subscription goes directly to your selected partner, providing stable, recurring funding for their most critical missions.</p>
+               </div>
+               <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <p className="text-3xl font-black italic tracking-tighter text-emerald-500 mb-2">10%</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">MINIMUM CONTRIBUTION</p>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-black italic tracking-tighter text-white mb-2">12+</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">CERTIFIED PARTNERS</p>
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-32 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
           <div>

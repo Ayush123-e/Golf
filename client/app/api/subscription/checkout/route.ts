@@ -15,17 +15,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { plan, charityId, percentage, phone, region } = await req.json();
+    const { plan, charityId, percentage, phone, region, isDonation } = await req.json();
 
+    let mode: Stripe.Checkout.Session.Mode = "subscription";
     let priceId;
-    if (region === "india") {
-      priceId = plan === "yearly" 
-        ? process.env.STRIPE_INR_YEARLY_PRICE_ID 
-        : process.env.STRIPE_INR_MONTHLY_PRICE_ID;
+
+    if (isDonation) {
+      mode = "payment";
+      priceId = region === "india" 
+        ? process.env.STRIPE_INR_DONATION_PRICE_ID 
+        : process.env.STRIPE_DONATION_PRICE_ID;
     } else {
-      priceId = plan === "yearly" 
-        ? process.env.STRIPE_YEARLY_PRICE_ID 
-        : process.env.STRIPE_MONTHLY_PRICE_ID;
+      if (region === "india") {
+        priceId = plan === "yearly" 
+          ? process.env.STRIPE_INR_YEARLY_PRICE_ID 
+          : process.env.STRIPE_INR_MONTHLY_PRICE_ID;
+      } else {
+        priceId = plan === "yearly" 
+          ? process.env.STRIPE_YEARLY_PRICE_ID 
+          : process.env.STRIPE_MONTHLY_PRICE_ID;
+      }
     }
 
     if (!priceId) {
@@ -40,7 +49,7 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      mode: "subscription",
+      mode: mode,
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/subscribe`,
       customer_email: user.email,

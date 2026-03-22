@@ -14,8 +14,16 @@ export default function SubscribePage() {
     charityId: "",
     percentage: 10,
     plan: "monthly",
-    region: "uk"
+    region: "uk",
+    isDonation: false
   });
+  
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('donation') === 'true') {
+      setFormData(prev => ({ ...prev, isDonation: true, charityId: params.get('charityId') || "" }));
+    }
+  }, []);
   
   const router = useRouter();
   const supabase = createClient();
@@ -61,8 +69,12 @@ export default function SubscribePage() {
             <Zap size={14} className="text-emerald-400 fill-emerald-400" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">Phase 2: Level Up Your Game</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4">Join The <span className="text-emerald-500">Championship</span></h1>
-          <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Unlock rolling 5 scores and support your cause</p>
+          <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4">
+            {formData.isDonation ? "Direct <span className='text-emerald-500'>Donation</span>" : "Join The <span className='text-emerald-500'>Championship</span>"}
+          </h1>
+          <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">
+            {formData.isDonation ? "Support the cause directly without competition entry" : "Unlock rolling 5 scores and support your cause"}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-12 rounded-[3rem] shadow-2xl space-y-8">
@@ -85,21 +97,32 @@ export default function SubscribePage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <PlanCard 
-              active={formData.plan === "monthly"} 
-              title="Monthly" 
-              price={formData.region === "india" ? "₹999" : "£9.99"} 
-              onClick={() => setFormData({ ...formData, plan: "monthly" })} 
-            />
-            <PlanCard 
-              active={formData.plan === "yearly"} 
-              title="Yearly" 
-              price={formData.region === "india" ? "₹9999" : "£99"} 
-              badge="Best Value"
-              onClick={() => setFormData({ ...formData, plan: "yearly" })} 
-            />
-          </div>
+          {!formData.isDonation && (
+            <div className="grid grid-cols-2 gap-4">
+              <PlanCard 
+                active={formData.plan === "monthly"} 
+                title="Monthly" 
+                price={formData.region === "india" ? "₹999" : "£9.99"} 
+                onClick={() => setFormData({ ...formData, plan: "monthly" })} 
+              />
+              <PlanCard 
+                active={formData.plan === "yearly"} 
+                title="Yearly" 
+                price={formData.region === "india" ? "₹9999" : "£99"} 
+                badge="Best Value"
+                onClick={() => setFormData({ ...formData, plan: "yearly" })} 
+              />
+            </div>
+          )}
+
+          {formData.isDonation && (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-3xl text-center">
+              <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-2">One-Time Contribution</p>
+              <h4 className="text-4xl font-black italic uppercase tracking-tighter">
+                {formData.region === "india" ? "₹1,000" : "£10.00"}
+              </h4>
+            </div>
+          )}
 
 
           <div className="space-y-3">
