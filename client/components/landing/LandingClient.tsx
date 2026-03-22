@@ -190,7 +190,7 @@ export default function LandingClient({ stats }: LandingClientProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 relative">
                <div className="aspect-[16/9] rounded-[3rem] overflow-hidden border border-white/10 relative group">
-                  <img src="/assets/charity_spotlight.png" className="w-full h-full object-cover grayscale opacity-40 group-hover:scale-110 transition-transform duration-[3s]" alt="Charity" />
+                  <img src="https://images.unsplash.com/photo-1535136021237-7df9f2ad7fb3?q=80&w=2000&auto=format&fit=crop" className="w-full h-full object-cover grayscale opacity-40 group-hover:scale-110 transition-transform duration-[3s]" alt="Charity" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-10 left-10 p-10 backdrop-blur-2xl bg-black/40 border border-white/10 rounded-3xl max-w-md">
                     <p className="text-sm text-white font-medium italic mb-4">"Developing the next generation of players through accessibility and world-class grassroots coaching."</p>
@@ -243,7 +243,7 @@ export default function LandingClient({ stats }: LandingClientProps) {
           <div className="relative">
             <div className="aspect-square rounded-[3rem] bg-zinc-900 border border-white/10 overflow-hidden relative group">
               <img 
-                src="/assets/community_tech.png" 
+                src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2000&auto=format&fit=crop" 
                 className="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000"
                 alt="Community"
               />
