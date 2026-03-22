@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase';
 import { Trophy, Calendar, Target } from "lucide-react";
 import Link from "next/link";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 import { format } from 'date-fns';
 
 export default async function HistoryPage() {
@@ -14,7 +13,6 @@ export default async function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-hidden">
-      <PremiumBackground />
       
       <div className="max-w-2xl mx-auto relative z-10 pt-10">
 

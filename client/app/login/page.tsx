@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Mail, Lock, Key, ArrowRight, ShieldCheck, Zap, Fingerprint } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -84,7 +83,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
 
-      <PremiumBackground />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

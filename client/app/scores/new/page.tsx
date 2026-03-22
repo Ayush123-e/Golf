@@ -1,11 +1,9 @@
 import ScoreEntryForm from "@/components/scores/ScoreEntryForm";
 import { Trophy } from "lucide-react";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default function NewScorePage() {
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-hidden">
-      <PremiumBackground />
       
       <div className="max-w-xl mx-auto relative z-10 pt-10">
 

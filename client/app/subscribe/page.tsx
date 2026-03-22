@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Phone, Heart, Percent, Zap, ChevronRight, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default function SubscribePage() {
   const [loading, setLoading] = useState(false);
@@ -50,7 +49,6 @@ export default function SubscribePage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 relative overflow-hidden pt-24">
-      <PremiumBackground />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}

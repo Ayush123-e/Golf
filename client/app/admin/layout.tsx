@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default async function AdminLayout({
   children,
@@ -27,7 +26,6 @@ export default async function AdminLayout({
     <div className="flex min-h-screen bg-black text-white selection:bg-emerald-500 selection:text-black">
       <AdminSidebar />
       <main className="flex-1 relative overflow-y-auto">
-        <PremiumBackground />
         <div className="relative z-10 min-h-full">
           {children}
         </div>

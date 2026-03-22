@@ -9,7 +9,7 @@ const navItems = [
   { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
   { name: 'Monthly Draw', href: '/draws', icon: Zap },
   { name: 'Add Score', href: '/scores/new', icon: PlusCircle },
-  { name: 'My Profile', href: '/profile', icon: User },
+  { name: 'My Profile', href: '/dashboard/profile', icon: User },
 ];
 
 export default function Navigation() {

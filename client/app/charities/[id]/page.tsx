@@ -1,6 +1,5 @@
 import { getCharityById } from "@/actions/charities";
 import DashboardHeader from "@/components/dashboard/Header";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 import { createClient } from "@/lib/supabase";
 import { Heart, Globe, ArrowLeft, ShieldCheck, Zap } from "lucide-react";
 import Link from "next/link";
@@ -18,7 +17,6 @@ export default async function CharityProfilePage({ params }: { params: { id: str
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <PremiumBackground />
       <DashboardHeader user={profile} />
 
       <div className="max-w-6xl mx-auto px-6 py-32 relative z-10">

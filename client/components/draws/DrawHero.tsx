@@ -2,71 +2,64 @@
 
 import { motion } from "framer-motion";
 import { Trophy, Clock, Zap } from "lucide-react";
+import CountdownTimer from "../ui/CountdownTimer";
 
 interface DrawHeroProps {
-  draw: any;
+  currentDraw: any;
+  nextDrawDate: string;
 }
 
-export default function DrawHero({ draw }: DrawHeroProps) {
-  if (!draw) return null;
-
+export default function DrawHero({ currentDraw, nextDrawDate }: DrawHeroProps) {
   return (
-    <div className="relative group p-8 bg-zinc-950 border border-white/5 rounded-[3rem] overflow-hidden mb-12">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[80px] rounded-full -mr-32 -mt-32 pointer-events-none" />
-      
-      <div className="relative z-10">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-2 block">Monthly Draw</span>
-            <h2 className="text-4xl font-black italic tracking-tighter uppercase text-white">{draw.draw_month}</h2>
+    <div className="relative p-12 lg:p-20 bg-zinc-900 border border-white/5 rounded-[4rem] overflow-hidden group mb-12">
+      <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="px-4 py-1.5 bg-emerald-500 rounded-full text-[10px] font-black uppercase text-black italic tracking-widest">
+              Live Prize Pool
+            </div>
+            <p className="text-[10px] font-black uppercase text-zinc-500 tracking-[0.2em]">{currentDraw?.draw_month || "Active Session"}</p>
           </div>
-          <div className="px-5 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            {draw.is_published ? "RESULTS LIVE" : "LIVE POOL"}
+          
+          <h1 className="text-5xl md:text-7xl lg:text-9xl font-black italic tracking-tighter uppercase mb-8 group-hover:scale-[1.02] transition-transform duration-700">
+            £{(currentDraw?.total_pool || 0).toLocaleString()}
+          </h1>
+
+          <div className="flex flex-wrap gap-8 items-center">
+            <div>
+              <p className="text-[10px] font-black uppercase text-zinc-500 tracking-widest mb-4">DRIVING TOWARDS DRAW</p>
+              <CountdownTimer targetDate={nextDrawDate} />
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-4 mb-10">
-          {draw.is_published ? (
-             draw.draw_numbers.map((num: number, i: number) => (
+        <div className="relative flex items-center justify-center min-h-[300px]">
+          <div className="absolute inset-0 w-full h-full bg-emerald-500/5 blur-[80px] rounded-full scale-150 group-hover:scale-100 transition-transform duration-1000 ease-out" />
+          
+          <div className="relative z-10 flex flex-wrap items-center justify-center gap-4">
+            {currentDraw?.is_published ? (
+              currentDraw.draw_numbers.map((num: number, i: number) => (
                 <motion.div 
                   key={i}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: i * 0.1 }}
-                  className="w-16 h-16 md:w-20 md:h-20 bg-zinc-900 border border-emerald-500/30 rounded-2xl flex items-center justify-center shadow-2xl shadow-emerald-500/10"
+                  className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white text-black flex items-center justify-center font-black italic text-2xl lg:text-3xl shadow-[0_0_40px_rgba(255,255,255,0.3)] border-4 border-emerald-500"
                 >
-                  <span className="text-2xl md:text-3xl font-black italic text-emerald-400">{num}</span>
+                  {num}
                 </motion.div>
-             ))
-          ) : (
-            <div className="flex flex-col items-center gap-6 py-6">
-               <div className="flex gap-4">
-                  {[1,2,3,4,5].map((i) => (
-                    <div key={i} className="w-16 h-16 bg-zinc-900/50 border border-dashed border-zinc-800 rounded-2xl flex items-center justify-center">
-                       <Zap size={20} className="text-zinc-800" />
-                    </div>
-                  ))}
-               </div>
-               <div className="flex items-center gap-2 text-zinc-500">
-                  <Clock size={14} />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Draw Closing soon</span>
-               </div>
-            </div>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/5">
-           <div>
-              <span className="text-zinc-600 text-[8px] font-black uppercase tracking-widest block mb-1">Total Pool</span>
-              <span className="text-xl font-black italic text-white uppercase tracking-tighter">£{draw.total_prize_pool.toLocaleString()}</span>
-           </div>
-           <div>
-              <span className="text-zinc-600 text-[8px] font-black uppercase tracking-widest block mb-1">Participants</span>
-              <span className="text-xl font-black italic text-zinc-400 uppercase tracking-tighter">2,841</span>
-           </div>
+              ))
+            ) : (
+              <div className="text-center">
+                <Trophy size={80} className="text-white/10 mb-6 mx-auto animate-bounce" />
+                <p className="text-xs font-black uppercase text-zinc-500 tracking-widest">Numbers locked until month end</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
     </div>
   );
 }

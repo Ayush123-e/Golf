@@ -1,7 +1,6 @@
 import { getCharities, getUserCharity } from "@/actions/charities";
 import CharityDirectory from "@/components/charities/CharityDirectory";
 import DashboardHeader from "@/components/dashboard/Header";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 import { createClient } from "@/lib/supabase";
 
 export default async function CharitiesPage() {
@@ -19,7 +18,6 @@ export default async function CharitiesPage() {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <PremiumBackground />
       <DashboardHeader user={profile} />
       
       <div className="pt-20">

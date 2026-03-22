@@ -5,7 +5,6 @@ import UserDrawEntry from "@/components/draws/UserDrawEntry";
 import PrizePoolInfo from "@/components/draws/PrizePoolInfo";
 import AdminDrawControl from "@/components/draws/AdminDrawControl";
 import AdminWinnerManager from "@/components/admin/AdminWinnerManager";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 import { Trophy, Target, History } from "lucide-react";
 import Link from "next/link";
 
@@ -32,7 +31,6 @@ export default async function DrawsPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-hidden">
-      <PremiumBackground />
       
       <div className="max-w-4xl mx-auto relative z-10 pt-10 pb-20">
         <div className="mb-12">
@@ -49,7 +47,7 @@ export default async function DrawsPage() {
 
         {isAdmin && <AdminDrawControl currentDraw={currentDraw} />}
 
-        <DrawHero draw={currentDraw} />
+        <DrawHero currentDraw={currentDraw} nextDrawDate={"April 1, 2026"} />
 
         <PrizePoolInfo draw={currentDraw} />
 

@@ -2,7 +2,6 @@ import { getLeaderboard } from "@/actions/leaderboard";
 import LeaderboardPodium from "@/components/leaderboard/LeaderboardPodium";
 import { Trophy, ChevronRight, Zap, Target } from "lucide-react";
 import Link from "next/link";
-import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default async function LeaderboardPage() {
   const result = await getLeaderboard();
@@ -12,9 +11,7 @@ export default async function LeaderboardPage() {
   const remaining = profiles.slice(3);
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-hidden">
-      <PremiumBackground />
-      
+    <div className="min-h-screen bg-transparent text-white p-6 md:p-12 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10 pt-10">
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -51,7 +48,7 @@ export default async function LeaderboardPage() {
             <div className="col-span-2 text-right text-[10px] font-black uppercase tracking-widest text-zinc-500">Status</div>
           </div>
 
-          {remaining.map((p, i) => (
+          {remaining.map((p: any, i: number) => (
             <div 
               key={p.id}
               className="grid grid-cols-12 items-center px-8 py-5 bg-zinc-900/30 border border-white/5 rounded-2xl hover:bg-white/5 transition-all group cursor-default"
