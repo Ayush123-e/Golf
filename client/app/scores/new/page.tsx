@@ -1,6 +1,5 @@
 import ScoreEntryForm from "@/components/scores/ScoreEntryForm";
-import { Trophy, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Trophy } from "lucide-react";
 import PremiumBackground from "@/components/ui/PremiumBackground";
 
 export default function NewScorePage() {
@@ -9,10 +8,6 @@ export default function NewScorePage() {
       <PremiumBackground />
       
       <div className="max-w-xl mx-auto relative z-10 pt-10">
-        <Link href="/dashboard" className="inline-flex items-center gap-2 text-zinc-500 hover:text-emerald-400 transition-colors mb-12 group">
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Back to Dashboard</span>
-        </Link>
 
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-4">

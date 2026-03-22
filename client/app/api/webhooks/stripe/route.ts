@@ -1,4 +1,4 @@
-import { createAdminClient } from '../../../../../server/lib/supabaseServer';
+import { createAdminClient } from '../../../../lib/supabaseServer';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
