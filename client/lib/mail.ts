@@ -62,3 +62,27 @@ export async function sendPaymentNotification(email: string, amount: number) {
     return { error };
   }
 }
+
+export async function sendDrawPublishedNotification(emails: string[], drawMonth: string) {
+  if (!process.env.RESEND_API_KEY) return { error: "Email service unconfigured" };
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'GOLF HERO <onboarding@resend.dev>',
+      to: emails,
+      subject: `🏆 DRAW RESULTS: ${drawMonth.toUpperCase()}`,
+      html: `
+        <div style="font-family: sans-serif; background: #000; color: #fff; padding: 40px; border-radius: 20px;">
+          <h1 style="font-style: italic; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; font-size: 40px;">DRAW PUBLISHED</h1>
+          <p style="font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #10b981;">The results are in for ${drawMonth}</p>
+          <p style="font-size: 14px; line-height: 1.6; color: #999;">Check the dashboard now to see if you've matched the winning numbers and claimed a share of the prize pool.</p>
+          <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background: #10b981; color: #000; text-decoration: none; font-weight: 900; text-transform: uppercase; border-radius: 10px;">VIEW RESULTS</a>
+        </div>
+      `,
+    });
+
+    if (error) return { error };
+    return { data };
+  } catch (error) {
+    return { error };
+  }
+}

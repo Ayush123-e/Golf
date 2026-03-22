@@ -1,5 +1,5 @@
 import { createServiceRoleClient } from "./supabase";
-import { sendWinNotification } from "./mail";
+import { sendWinNotification, sendDrawPublishedNotification } from "./mail";
 
 export async function generateDraw(drawMonth: string, drawType: 'random' | 'algorithm' = 'random') {
   const supabase = createServiceRoleClient();
@@ -139,7 +139,6 @@ export async function processWinners(drawId: string) {
   }
   return { success: true, winnerCount: 0 };
 }
-
 export async function publishResults(drawId: string) {
   const supabase = createServiceRoleClient();
   const { error } = await supabase
@@ -148,6 +147,22 @@ export async function publishResults(drawId: string) {
     .eq('id', drawId);
 
   if (error) return { error: error.message };
+
+  // Notify all active subscribers
+  const { data: subscribers } = await supabase
+    .from('subscriptions')
+    .select('profiles(email)')
+    .eq('status', 'active');
+
+  const emails = (subscribers as any[])
+    ?.map(s => s.profiles?.email)
+    .filter(Boolean);
+
+  if (emails && emails.length > 0) {
+    const { data: drawData } = await supabase.from('draws').select('draw_month').eq('id', drawId).single();
+    await sendDrawPublishedNotification(emails, drawData?.draw_month || "Current Month");
+  }
+
   return { success: true };
 }
 
