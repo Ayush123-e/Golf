@@ -29,9 +29,7 @@ export default function DashboardClient({
 }: DashboardClientProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Simplified trend logic for the hero card (real data would come from the server-calculated rolling_avg comparison)
   const currentAvg = profile?.rolling_avg || 0;
-  // For demo/consistency, we assume a stable trend if no historical diff is passed
   const trend = 'stable'; 
 
   return (

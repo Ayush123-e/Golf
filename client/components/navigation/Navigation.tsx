@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Trophy, PlusCircle, User, Settings } from 'lucide-react';
+import { Home, Trophy, PlusCircle, User, Settings, Zap } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
-  { name: 'Monthly Draw', href: '/draws', icon: Trophy },
+  { name: 'Monthly Draw', href: '/draws', icon: Zap },
   { name: 'Add Score', href: '/scores/new', icon: PlusCircle },
   { name: 'My Profile', href: '/profile', icon: User },
 ];

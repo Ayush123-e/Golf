@@ -65,7 +65,7 @@ export default function ScoreEntryModal({ isOpen, onClose }: ScoreEntryModalProp
                 <Target size={32} className="text-emerald-500" />
               </div>
               <h2 className="text-4xl font-black italic tracking-tighter uppercase text-white mb-2">Record Round</h2>
-              <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em]">Phase 3: Performance Sync</p>
+              <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em]">Performance Sync</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-10 relative">
