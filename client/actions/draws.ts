@@ -42,13 +42,13 @@ export async function getUserEntry(drawId: string) {
 import { createServiceRoleClient } from "../lib/supabase";
 import { generateDraw, processWinners, publishResults, executeDraw } from "../lib/draw-engine";
 
-export async function adminGenerateDrawNumbers(drawMonth: string) {
+export async function adminGenerateDrawNumbers(drawMonth: string, drawType: 'random' | 'algorithm' = 'random') {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single();
   if (profile?.role !== 'admin') return { error: "Permission denied" };
 
-  const res = await generateDraw(drawMonth);
+  const res = await generateDraw(drawMonth, drawType);
   if (res.error) return { error: res.error };
   
   revalidatePath('/draws');

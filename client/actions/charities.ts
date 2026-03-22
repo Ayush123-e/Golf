@@ -60,3 +60,35 @@ export async function getUserCharity() {
   if (error && error.code !== 'PGRST116') return { error: error.message };
   return { selection };
 }
+
+export async function deleteCharity(charityId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  if (profile?.role !== 'admin') return { error: "Admin access required" };
+
+  const { error } = await supabase.from('charities').delete().eq('id', charityId);
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/charities');
+  revalidatePath('/charities');
+  return { success: true };
+}
+
+export async function addCharity(charity: any) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  if (profile?.role !== 'admin') return { error: "Admin access required" };
+
+  const { error } = await supabase.from('charities').insert(charity);
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/charities');
+  revalidatePath('/charities');
+  return { success: true };
+}

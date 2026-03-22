@@ -48,6 +48,7 @@ export default async function DashboardPage(props: { searchParams: Promise<{ ses
       <DashboardClient 
         profile={profile}
         isSubscribed={isSubscribed}
+        subscription={subscription}
         sessionId={session_id}
         winner={winner}
         charity={charitySelection?.charity}

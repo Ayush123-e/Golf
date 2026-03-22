@@ -15,15 +15,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { plan, charityId, percentage, phone } = await req.json();
+    const { plan, charityId, percentage, phone, region } = await req.json();
 
-
-    const priceId = plan === "yearly" 
-      ? process.env.STRIPE_YEARLY_PRICE_ID 
-      : process.env.STRIPE_MONTHLY_PRICE_ID;
+    let priceId;
+    if (region === "india") {
+      priceId = plan === "yearly" 
+        ? process.env.STRIPE_INR_YEARLY_PRICE_ID 
+        : process.env.STRIPE_INR_MONTHLY_PRICE_ID;
+    } else {
+      priceId = plan === "yearly" 
+        ? process.env.STRIPE_YEARLY_PRICE_ID 
+        : process.env.STRIPE_MONTHLY_PRICE_ID;
+    }
 
     if (!priceId) {
-      return NextResponse.json({ error: "Stripe Price IDs not configured" }, { status: 500 });
+      return NextResponse.json({ error: `Stripe Price IDs not configured for region: ${region}` }, { status: 500 });
     }
 
     const session = await stripe.checkout.sessions.create({

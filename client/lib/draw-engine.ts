@@ -1,7 +1,7 @@
 import { createServiceRoleClient } from "./supabase";
 import { sendWinNotification } from "./mail";
 
-export async function generateDraw(drawMonth: string) {
+export async function generateDraw(drawMonth: string, drawType: 'random' | 'algorithm' = 'random') {
   const supabase = createServiceRoleClient();
   
   const { count: activeSubs } = await supabase
@@ -43,7 +43,7 @@ export async function generateDraw(drawMonth: string) {
     .insert({
       draw_month: drawMonth,
       draw_numbers: drawNumbers,
-      draw_type: 'random',
+      draw_type: drawType,
       total_pool: totalPool,
       jackpot_carry: jackpotCarry,
       is_published: false

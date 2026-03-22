@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object as Stripe.Checkout.Session;
-      const { userId, charityId, percentage, phone, plan } = session.metadata || {};
+      const { userId, charityId, percentage, phone, plan, region } = session.metadata || {};
 
       if (!userId) break;
 
@@ -56,7 +56,9 @@ export async function POST(req: Request) {
           user_id: userId,
           plan: plan,
           status: 'active',
+          stripe_subscription_id: session.subscription as string,
           start_date: new Date().toISOString(),
+          plan_region: region || 'uk',
         });
 
 
@@ -73,6 +75,32 @@ export async function POST(req: Request) {
       break;
 
     case 'customer.subscription.deleted':
+    case 'customer.subscription.updated':
+      const subscription = event.data.object as Stripe.Subscription;
+      const status = subscription.status;
+      const stripeCustomerId = subscription.customer as string;
+
+      // Find the user by stripe customer ID (optional, or rely on active search)
+      // For now, update any subscription with this stripe ID or status
+      await supabase
+        .from('subscriptions')
+        .update({ 
+          status: status === 'active' ? 'active' : 'inactive',
+          updated_at: new Date().toISOString()
+        })
+        .eq('stripe_subscription_id', subscription.id);
+      break;
+
+    case 'invoice.payment_failed':
+      const invoice = event.data.object as any;
+      const subId = invoice.subscription as string;
+      
+      if (subId) {
+        await supabase
+          .from('subscriptions')
+          .update({ status: 'inactive' })
+          .eq('stripe_subscription_id', subId);
+      }
       break;
   }
 

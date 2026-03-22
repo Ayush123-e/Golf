@@ -8,14 +8,15 @@ import { motion } from "framer-motion";
 export default function AdminDrawControl({ currentDraw }: { currentDraw: any }) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [drawType, setDrawType] = useState<'random' | 'algorithm'>('random');
 
   const handleGenerate = async () => {
     setLoading(true);
-    setStatus("Generating Numbers...");
+    setStatus(`Generating ${drawType} Numbers...`);
     const month = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-    const res = await adminGenerateDrawNumbers(month);
+    const res = await adminGenerateDrawNumbers(month, drawType);
     if (res.error) alert(res.error);
-    setStatus("Draw Generated. Ready to Process.");
+    setStatus(`${drawType.charAt(0).toUpperCase() + drawType.slice(1)} Draw Generated. Ready to Process.`);
     setLoading(false);
   };
 
@@ -46,6 +47,23 @@ export default function AdminDrawControl({ currentDraw }: { currentDraw: any }) 
           <Settings size={20} className="text-black" />
         </div>
         <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Championship Admin</h3>
+      </div>
+
+      <div className="flex bg-black/50 p-1.5 rounded-2xl border border-white/5 mb-8 max-w-sm">
+        <button 
+          type="button"
+          onClick={() => setDrawType("random")}
+          className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${drawType === "random" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+        >
+          Random
+        </button>
+        <button 
+          type="button"
+          onClick={() => setDrawType("algorithm")}
+          className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${drawType === "algorithm" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+        >
+          Algorithmic
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

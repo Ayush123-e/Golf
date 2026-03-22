@@ -8,6 +8,10 @@ export async function submitStablefordScore(score: number, date: string) {
   const user = data?.user;
 
   if (!user) return { error: "Authentication required" };
+  
+  if (score < 1 || score > 45) {
+    return { error: "Invalid score. Stableford points must be between 1 and 45." };
+  }
 
   const { error: insertError } = await supabase.from('scores').insert({
     user_id: user.id,
@@ -55,4 +59,48 @@ async function syncUserDrawEntry(userId: string) {
       draw_id: currentDraw.id,
       scores: scoresArray
     }, { onConflict: 'user_id, draw_id' });
+}
+
+export async function deleteScore(scoreId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user;
+
+  if (!user) return { error: "Authentication required" };
+
+  const { error } = await supabase
+    .from('scores')
+    .delete()
+    .eq('id', scoreId)
+    .eq('user_id', user.id);
+
+  if (error) return { error: error.message };
+
+  await syncUserDrawEntry(user.id);
+  revalidatePath('/dashboard');
+  return { success: true };
+}
+
+export async function updateScore(scoreId: string, score: number, date: string) {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user;
+
+  if (!user) return { error: "Authentication required" };
+
+  if (score < 1 || score > 45) {
+    return { error: "Invalid points. Must be 1-45." };
+  }
+
+  const { error } = await supabase
+    .from('scores')
+    .update({ score, played_at: date })
+    .eq('id', scoreId)
+    .eq('user_id', user.id);
+
+  if (error) return { error: error.message };
+
+  await syncUserDrawEntry(user.id);
+  revalidatePath('/dashboard');
+  return { success: true };
 }

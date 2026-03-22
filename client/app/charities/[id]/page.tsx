@@ -57,10 +57,17 @@ export default async function CharityProfilePage({ params }: { params: { id: str
               </div>
             </div>
 
-            <button className="w-full md:w-auto px-12 py-6 bg-emerald-500 text-black font-black italic uppercase text-sm tracking-tighter rounded-2xl hover:bg-white active:scale-95 transition-all flex items-center justify-center gap-3 group">
-              CHOOSE THIS CAUSE
-              <Heart size={18} className="group-hover:fill-emerald-500 transition-colors" />
-            </button>
+            <div className="flex flex-col md:flex-row gap-4">
+              <button className="flex-1 px-12 py-6 bg-emerald-500 text-black font-black italic uppercase text-sm tracking-tighter rounded-2xl hover:bg-white active:scale-95 transition-all flex items-center justify-center gap-3 group text-center">
+                CHOOSE THIS CAUSE
+                <Heart size={18} className="group-hover:fill-emerald-500 transition-colors" />
+              </button>
+              
+              <button className="flex-1 px-12 py-6 bg-white/5 border border-white/10 text-white font-black italic uppercase text-sm tracking-tighter rounded-2xl hover:bg-white hover:text-black active:scale-95 transition-all flex items-center justify-center gap-3 group text-center">
+                DIRECT DONATION
+                <Globe size={18} />
+              </button>
+            </div>
           </div>
 
           <div className="relative">

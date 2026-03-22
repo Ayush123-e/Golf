@@ -10,6 +10,7 @@ import {
   User as UserIcon, 
   CreditCard,
   Mail,
+  BarChart3,
   Calendar,
   ChevronDown,
   Loader2,
@@ -117,26 +118,36 @@ export default function AdminUserTable({ users }: { users: any[] }) {
                     </span>
                   </td>
                   <td className="px-8 py-6 text-right">
-                    <button 
-                      onClick={() => handleToggleRole(user.id, user.role)}
-                      disabled={loadingId === user.id}
-                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
-                        user.role === 'admin' 
-                          ? 'bg-zinc-800 text-white hover:bg-red-500 hover:text-black' 
-                          : 'bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-black'
-                      }`}
-                    >
-                      {loadingId === user.id ? (
-                        <Loader2 size={12} className="animate-spin" />
-                      ) : user.role === 'admin' ? (
-                        <>
-                          <Shield size={12} />
-                          Is Admin
-                        </>
-                      ) : (
-                        "Make Admin"
-                      )}
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      <button 
+                        onClick={() => alert(`Scores for ${user.full_name}: Coming Soon in Detailed View`)}
+                        className="p-2.5 bg-white/5 border border-white/5 text-zinc-500 rounded-xl hover:bg-emerald-500 hover:text-black transition-all"
+                        title="View Scores"
+                      >
+                        <BarChart3 size={14} />
+                      </button>
+                      
+                      <button 
+                        onClick={() => handleToggleRole(user.id, user.role)}
+                        disabled={loadingId === user.id}
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
+                          user.role === 'admin' 
+                            ? 'bg-zinc-800 text-white hover:bg-red-500 hover:text-black' 
+                            : 'bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-black'
+                        }`}
+                      >
+                        {loadingId === user.id ? (
+                          <Loader2 size={12} className="animate-spin" />
+                        ) : user.role === 'admin' ? (
+                          <>
+                            <Shield size={12} />
+                            Admin
+                          </>
+                        ) : (
+                          "Promote"
+                        )}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

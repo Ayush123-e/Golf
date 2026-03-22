@@ -1,4 +1,4 @@
-export default function PrizeStats() {
+export default function PrizeStats({ currencySymbol = "£" }: { currencySymbol?: string }) {
   const currentPrize = "12,450"; 
 
   return (
@@ -8,7 +8,7 @@ export default function PrizeStats() {
       <div className="relative z-10">
         <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Estimated Grand Prize</p>
         <div className="flex items-baseline gap-2">
-          <span className="text-5xl font-black text-white tracking-tighter">£{currentPrize}</span>
+          <span className="text-5xl font-black text-white tracking-tighter">{currencySymbol}{currentPrize}</span>
           <span className="text-emerald-500 font-black animate-pulse text-lg">●</span>
         </div>
         

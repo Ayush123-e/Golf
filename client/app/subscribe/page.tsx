@@ -13,7 +13,8 @@ export default function SubscribePage() {
     phone: "",
     charityId: "",
     percentage: 10,
-    plan: "monthly"
+    plan: "monthly",
+    region: "uk"
   });
   
   const router = useRouter();
@@ -67,17 +68,34 @@ export default function SubscribePage() {
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-12 rounded-[3rem] shadow-2xl space-y-8">
           
 
+          <div className="flex bg-black/50 p-1.5 rounded-2xl border border-white/5">
+            <button 
+              type="button"
+              onClick={() => setFormData({ ...formData, region: "uk" })}
+              className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${formData.region === "uk" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+            >
+              UK (GBP)
+            </button>
+            <button 
+              type="button"
+              onClick={() => setFormData({ ...formData, region: "india" })}
+              className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${formData.region === "india" ? "bg-white text-black" : "text-zinc-500 hover:text-white"}`}
+            >
+              India (INR)
+            </button>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <PlanCard 
               active={formData.plan === "monthly"} 
               title="Monthly" 
-              price="£9.99" 
+              price={formData.region === "india" ? "₹999" : "£9.99"} 
               onClick={() => setFormData({ ...formData, plan: "monthly" })} 
             />
             <PlanCard 
               active={formData.plan === "yearly"} 
               title="Yearly" 
-              price="£99" 
+              price={formData.region === "india" ? "₹9999" : "£99"} 
               badge="Best Value"
               onClick={() => setFormData({ ...formData, plan: "yearly" })} 
             />
