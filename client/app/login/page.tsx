@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Mail, Lock, Key, ArrowRight, ShieldCheck, Zap, Fingerprint } from "lucide-react";
@@ -16,6 +16,16 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.push("/dashboard");
+      }
+    };
+    checkUser();
+  }, [router, supabase]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,9 +72,9 @@ export default function LoginPage() {
         <img
           src="/assets/login_golf_bg.png"
           alt="Golf Hero Login"
-          className="w-full h-full object-cover opacity-50 grayscale-[0.2]"
+          className="w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-black/80 to-emerald-950/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
       </div>
       <PremiumBackground />
 

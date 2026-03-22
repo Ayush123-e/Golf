@@ -4,6 +4,7 @@ create table profiles (
   avatar_url text, 
   role text DEFAULT 'subscriber' CHECK (role in ('subscriber', 'admin')),
   is_profile_complete boolean default false,
+  rolling_avg numeric default 0,
   created_at timestamp default now(),
   updated_at timestamp default now()
 );
@@ -116,6 +117,7 @@ create trigger update_winners_updated_at before update on winners for each row e
 create or replace function maintain_rolling_five_scores()
 returns trigger as $$
 begin
+
     delete from scores
     where user_id = new.user_id
     and id not in (
@@ -124,12 +126,25 @@ begin
         order by played_at desc, created_at desc
         limit 5
     );
+
+    update profiles
+    set rolling_avg = (
+        select coalesce(avg(score), 0)
+        from (
+            select score from scores
+            where user_id = new.user_id
+            order by played_at desc, created_at desc
+            limit 5
+        ) as recent_scores
+    )
+    where id = new.user_id;
+
     return new;
 end;
 $$ language plpgsql;
 
 create trigger trigger_rolling_scores
-after insert on scores
+after insert or update on scores
 for each row execute function maintain_rolling_five_scores();
 
 create or replace function sync_profile_subscription_status()

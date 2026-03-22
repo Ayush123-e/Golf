@@ -3,8 +3,24 @@
 import Link from "next/link";
 import { Trophy, ArrowRight, ShieldCheck, Target, Zap, Globe, Users } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Home() {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleProtectedRoute = async (e: React.MouseEvent, path: string) => {
+    e.preventDefault();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      router.push('/login');
+    } else {
+      router.push(path);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 overflow-x-hidden relative">
       <section className="relative h-[90vh] flex flex-col items-center justify-center pt-20">
@@ -56,6 +72,7 @@ export default function Home() {
           >
             <Link
               href="/dashboard"
+              onClick={(e) => handleProtectedRoute(e, '/dashboard')}
               className="bg-emerald-500 text-black px-12 py-5 rounded-full font-black flex items-center justify-center gap-3 transition-all hover:bg-white hover:scale-105 active:scale-95 group shadow-2xl shadow-emerald-500/40"
             >
               LEVEL UP NOW
@@ -145,9 +162,9 @@ export default function Home() {
               Platform
             </h4>
             <ul className="space-y-6">
-              <FooterLink icon={<Target size={14} />} href="/dashboard">DASHBOARD</FooterLink>
+              <FooterLink icon={<Target size={14} />} href="/dashboard" onClick={handleProtectedRoute}>DASHBOARD</FooterLink>
               <FooterLink icon={<Globe size={14} />} href="/leaderboard">LEADERBOARD</FooterLink>
-              <FooterLink icon={<Trophy size={14} />} href="/draws">MONTHLY DRAWS</FooterLink>
+              <FooterLink icon={<Trophy size={14} />} href="/draws" onClick={handleProtectedRoute}>MONTHLY DRAWS</FooterLink>
             </ul>
           </div>
 
@@ -184,10 +201,14 @@ export default function Home() {
   );
 }
 
-function FooterLink({ href, icon, children }: any) {
+function FooterLink({ href, icon, children, onClick }: any) {
   return (
     <li>
-      <Link href={href} className="flex items-center gap-4 text-xs font-black text-zinc-500 hover:text-white group transition-all text-left group">
+      <Link 
+        href={href} 
+        onClick={onClick ? (e) => onClick(e, href) : undefined}
+        className="flex items-center gap-4 text-xs font-black text-zinc-500 hover:text-white group transition-all text-left group"
+      >
         <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-black group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 flex-shrink-0">
           {icon}
         </div>
