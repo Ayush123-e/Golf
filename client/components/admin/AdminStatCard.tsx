@@ -28,7 +28,7 @@ export default function AdminStatCard({ label, value, icon: Icon, subtext, color
         <div>
           <p className="text-[10px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-4">{label}</p>
           <h3 className="text-4xl font-black italic tracking-tighter uppercase text-white mb-2">{value}</h3>
-          <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">{subtext}</p>
+          <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">{subtext}</p>
         </div>
         
         <div className={`p-4 rounded-2xl ${colorMap[color as keyof typeof colorMap]} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}>

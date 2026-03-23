@@ -9,12 +9,26 @@ import WinnerClaimSection from "./WinnerClaimSection";
 import MyCharityWidget from "./MyCharityWidget";
 
 interface DashboardClientProps {
-  profile: any;
+  profile: {
+    rolling_avg?: number;
+  } | null;
   isSubscribed: boolean;
-  subscription?: any;
+  subscription?: {
+    plan?: string;
+    plan_region?: string;
+    end_date?: string;
+  } | null;
   sessionId?: string;
-  winner?: any;
-  charity?: any;
+  winner?: {
+    id: string;
+    status: string;
+  } | null;
+  charity?: {
+    id: string;
+    name: string;
+    description: string;
+    image_url: string;
+  } | null;
   drawsEntered: number;
   rollingScores: React.ReactNode;
   prizeStats: React.ReactNode;
@@ -107,8 +121,8 @@ export default function DashboardClient({
 
       {prizeStats}
 
-      <div className="px-6 mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <MyCharityWidget charity={charity} />
+      <div className={`px-6 mt-8 grid grid-cols-1 ${isSubscribed ? 'md:grid-cols-2' : ''} gap-4`}>
+        <MyCharityWidget charity={charity || undefined} />
         {isSubscribed && (
           <div className="p-8 bg-zinc-900/50 border border-white/5 rounded-[2.5rem] flex flex-col justify-center">
             <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-4">Participation Summary</p>

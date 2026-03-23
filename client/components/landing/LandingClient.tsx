@@ -51,20 +51,21 @@ export default function LandingClient({ stats }: LandingClientProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-7xl md:text-[11rem] font-black italic tracking-tighter uppercase mb-6 leading-[0.75]"
+            className="text-7xl md:text-[12rem] font-black italic tracking-tighter uppercase mb-8 leading-[0.7] flex flex-col items-center"
           >
-            WIN BIG. <br />
-            <span className="text-emerald-500 drop-shadow-[0_0_500px_rgba(16,185,129,0.35)]">DO GOOD.</span>
+            <span className="opacity-40">CHAMPIONSHIP.</span>
+            <span className="text-emerald-500 drop-shadow-[0_0_100px_rgba(16,185,129,0.4)]">REDESIGNED.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-zinc-400 text-lg md:text-2xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed"
+            className="text-zinc-400 text-lg md:text-xl max-w-3xl mx-auto mb-16 font-bold uppercase tracking-[0.2em] leading-relaxed"
           >
-            The world's first premium championship where every round matters. 
-            Compete for thousands in cash prizes while supporting the causes you love.
+            Where every stableford point fuels a cause. <br className="hidden md:block" />
+            Join the elite network competing for massive prize pools <br className="hidden md:block" />
+            while driving global impact.
           </motion.p>
 
           <motion.div
@@ -193,7 +194,7 @@ export default function LandingClient({ stats }: LandingClientProps) {
                   <img src="/assets/charity_spotlight.png" className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-[3s]" alt="Charity Spotlight" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-10 left-10 p-10 backdrop-blur-2xl bg-black/40 border border-white/10 rounded-3xl max-w-md">
-                    <p className="text-sm text-white font-medium italic mb-4">"Developing the next generation of players through accessibility and world-class grassroots coaching."</p>
+                    <p className="text-sm text-white font-medium italic mb-4">&quot;Developing the next generation of players through accessibility and world-class grassroots coaching.&quot;</p>
                     <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500">The Junior Golf Foundation • Spotlight Partner</p>
                   </div>
                </div>
@@ -227,12 +228,12 @@ export default function LandingClient({ stats }: LandingClientProps) {
                </div>
                <span className="text-xs font-black uppercase tracking-[0.4em] text-zinc-500">Community First</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-8 leading-none">
-              BUILT FOR THE <br />
+            <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-8 leading-none text-white">
+              BUILT FOR THE <br className="hidden md:block" />
               <span className="text-emerald-500">MODERN CHAMPION</span>
             </h2>
             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-12">
-              Golf is more than just a sport; it's a legacy. GOLF HERO brings data-driven insight and a global stage to your local course.
+              Golf is more than just a sport; it&apos;s a legacy. GOLF HERO brings data-driven insight and a global stage to your local course.
             </p>
             <div className="space-y-6">
               <StatItem label="Active Players" value={`${stats.activePlayers.toLocaleString()}+`} />
@@ -254,7 +255,7 @@ export default function LandingClient({ stats }: LandingClientProps) {
                   {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-emerald-500 text-emerald-500" />)}
                 </div>
                 <p className="text-white text-sm italic font-medium leading-relaxed mb-4">
-                  "The Rolling 5 system completely changed how I approach my rounds. It's competitive, fair, and incredibly addictive."
+                  &quot;The Rolling 5 system completely changed how I approach my rounds. It&apos;s competitive, fair, and incredibly addictive.&quot;
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full" />
@@ -304,7 +305,16 @@ function StatItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-function BentoCard({ className, title, desc, badge, imageUrl, icon }: any) {
+interface BentoCardProps {
+  className: string;
+  title: string;
+  desc: string;
+  badge?: string;
+  imageUrl?: string;
+  icon: React.ReactNode;
+}
+
+function BentoCard({ className, title, desc, badge, imageUrl, icon }: BentoCardProps) {
   return (
     <motion.div
       whileHover={{ y: -5 }}

@@ -148,6 +148,31 @@ export async function publishResults(drawId: string) {
 
   if (error) return { error: error.message };
 
+  // Lock all scores used in this draw
+  const { data: entries } = await supabase
+    .from('user_draw_entries')
+    .select('user_id')
+    .eq('draw_id', drawId);
+
+  if (entries && entries.length > 0) {
+    for (const entry of entries) {
+      // Find the 5 scores that were most likely used (latest 5 at the time of entry)
+      const { data: latestScores } = await supabase
+        .from('scores')
+        .select('id')
+        .eq('user_id', entry.user_id)
+        .order('played_at', { ascending: false })
+        .limit(5);
+
+      if (latestScores && latestScores.length > 0) {
+        await supabase
+          .from('scores')
+          .update({ is_locked: true })
+          .in('id', latestScores.map(s => s.id));
+      }
+    }
+  }
+
   // Notify all active subscribers
   const { data: subscribers } = await supabase
     .from('subscriptions')

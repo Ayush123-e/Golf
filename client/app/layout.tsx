@@ -30,8 +30,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark h-full antialiased">
-      <body className={`${inter.className} min-h-full bg-black text-white flex flex-col`}>
+    <html lang="en" className="dark h-full antialiased" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-full bg-black text-white flex flex-col`} suppressHydrationWarning>
         <ThemeProvider>
           <PremiumBackground />
           <MainLayout user={user}>

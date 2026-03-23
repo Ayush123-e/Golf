@@ -4,9 +4,16 @@ import { Heart, ArrowRight, Globe } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function MyCharityWidget({ charity }: { charity?: any }) {
+interface Charity {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+}
+
+export default function MyCharityWidget({ charity }: { charity?: Charity }) {
   return (
-    <div className="bg-zinc-900/50 border border-white/5 rounded-[2.5rem] p-8 relative overflow-hidden group">
+    <div className="bg-white/5 border border-white/5 rounded-[2rem] p-6 relative overflow-hidden group">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center">
@@ -48,7 +55,7 @@ export default function MyCharityWidget({ charity }: { charity?: any }) {
       ) : (
         <div className="py-2">
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] leading-relaxed mb-6">
-            You haven't chosen a cause yet. 10% of your fee is currently in the general impact pool.
+            You haven&apos;t chosen a cause yet. 10% of your fee is currently in the general impact pool.
           </p>
           <Link 
             href="/charities" 

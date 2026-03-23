@@ -68,6 +68,17 @@ export async function deleteScore(scoreId: string) {
 
   if (!user) return { error: "Authentication required" };
 
+  // Check if score is locked
+  const { data: score } = await supabase
+    .from('scores')
+    .select('is_locked')
+    .eq('id', scoreId)
+    .single();
+
+  if (score?.is_locked) {
+    return { error: "Cannot delete a locked score used in a published draw." };
+  }
+
   const { error } = await supabase
     .from('scores')
     .delete()
@@ -81,20 +92,31 @@ export async function deleteScore(scoreId: string) {
   return { success: true };
 }
 
-export async function updateScore(scoreId: string, score: number, date: string) {
+export async function updateScore(scoreId: string, scoreValue: number, date: string) {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const user = data?.user;
 
   if (!user) return { error: "Authentication required" };
 
-  if (score < 1 || score > 45) {
+  if (scoreValue < 1 || scoreValue > 45) {
     return { error: "Invalid points. Must be 1-45." };
+  }
+
+  // Check if score is locked
+  const { data: existingScore } = await supabase
+    .from('scores')
+    .select('is_locked')
+    .eq('id', scoreId)
+    .single();
+
+  if (existingScore?.is_locked) {
+    return { error: "Cannot edit a locked score used in a published draw." };
   }
 
   const { error } = await supabase
     .from('scores')
-    .update({ score, played_at: date })
+    .update({ score: scoreValue, played_at: date })
     .eq('id', scoreId)
     .eq('user_id', user.id);
 

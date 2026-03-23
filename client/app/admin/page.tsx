@@ -44,7 +44,7 @@ export default async function AdminDashboardPage() {
           value={`£${Math.floor(stats?.totalCharityRaised || 0).toLocaleString()}`}
           icon={Heart}
           subtext="Platform Social Share"
-          color="zinc"
+          color="emerald"
         />
       </div>
 

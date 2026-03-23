@@ -6,9 +6,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Phone, Heart, Percent, Zap, ChevronRight, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+interface Charity {
+  id: string;
+  name: string;
+}
+
+interface PlanCardProps {
+  active: boolean;
+  title: string;
+  price: string;
+  badge?: string;
+  onClick: () => void;
+}
+
 export default function SubscribePage() {
   const [loading, setLoading] = useState(false);
-  const [charities, setCharities] = useState<any[]>([]);
+  const [charities, setCharities] = useState<Charity[]>([]);
   const [formData, setFormData] = useState({
     phone: "",
     charityId: "",
@@ -70,7 +83,11 @@ export default function SubscribePage() {
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">Phase 2: Level Up Your Game</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4">
-            {formData.isDonation ? "Direct <span className='text-emerald-500'>Donation</span>" : "Join The <span className='text-emerald-500'>Championship</span>"}
+            {formData.isDonation ? (
+              <>Direct <span className='text-emerald-500'>Donation</span></>
+            ) : (
+              <>Join The <span className='text-emerald-500'>Championship</span></>
+            )}
           </h1>
           <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">
             {formData.isDonation ? "Support the cause directly without competition entry" : "Unlock rolling 5 scores and support your cause"}
@@ -102,14 +119,14 @@ export default function SubscribePage() {
               <PlanCard 
                 active={formData.plan === "monthly"} 
                 title="Monthly" 
-                price={formData.region === "india" ? "₹999" : "£9.99"} 
+                price={formData.region === "india" ? "FREE" : "£9.99"} 
                 onClick={() => setFormData({ ...formData, plan: "monthly" })} 
               />
               <PlanCard 
                 active={formData.plan === "yearly"} 
                 title="Yearly" 
-                price={formData.region === "india" ? "₹9999" : "£99"} 
-                badge="Best Value"
+                price={formData.region === "india" ? "FREE" : "£99"} 
+                badge={formData.region === "india" ? undefined : "Best Value"}
                 onClick={() => setFormData({ ...formData, plan: "yearly" })} 
               />
             </div>
@@ -119,20 +136,22 @@ export default function SubscribePage() {
             <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-3xl text-center">
               <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-2">One-Time Contribution</p>
               <h4 className="text-4xl font-black italic uppercase tracking-tighter">
-                {formData.region === "india" ? "₹1,000" : "£10.00"}
+                {formData.region === "india" ? "FREE" : "£10.00"}
               </h4>
             </div>
           )}
 
 
           <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-2 flex items-center gap-2">
+            <label htmlFor="phone" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-2 flex items-center gap-2">
               <Phone size={12} /> Contact Number
             </label>
             <input 
+              id="phone"
               type="tel" 
-              placeholder="+44 7000 000000"
+              placeholder="+91 7000 000000"
               required
+              title="Enter your contact number"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="w-full bg-black/50 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-emerald-500 transition-all font-medium"
@@ -141,11 +160,13 @@ export default function SubscribePage() {
 
 
           <div className="space-y-3">
-            <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-2 flex items-center gap-2">
+            <label htmlFor="charity" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-2 flex items-center gap-2">
               <Heart size={12} /> Select Your Charity
             </label>
             <select 
+              id="charity"
               required
+              title="Select a charity to support"
               value={formData.charityId}
               onChange={(e) => setFormData({ ...formData, charityId: e.target.value })}
               className="w-full bg-black text-white border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-emerald-500 transition-all font-medium appearance-none"
@@ -161,16 +182,18 @@ export default function SubscribePage() {
 
           <div className="space-y-3">
             <div className="flex justify-between items-center px-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+              <label htmlFor="percentage" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
                 <Percent size={12} /> Contribution %
               </label>
               <span className="text-emerald-500 font-black italic">{formData.percentage}%</span>
             </div>
             <input 
+              id="percentage"
               type="range" 
               min="10" 
               max="50" 
               step="5"
+              title="Set your contribution percentage"
               value={formData.percentage}
               onChange={(e) => setFormData({ ...formData, percentage: parseInt(e.target.value) })}
               className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
@@ -196,7 +219,7 @@ export default function SubscribePage() {
   );
 }
 
-function PlanCard({ active, title, price, badge, onClick }: any) {
+function PlanCard({ active, title, price, badge, onClick }: PlanCardProps) {
   return (
     <div 
       onClick={onClick}

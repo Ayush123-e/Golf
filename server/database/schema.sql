@@ -29,6 +29,7 @@ create table scores (
   user_id uuid references profiles(id) on delete cascade,
   score integer check (score >= 1 and score <= 45),
   played_at date,
+  is_locked boolean default false,
   created_at timestamp default now(),
   updated_at timestamp default now()
 );
@@ -57,16 +58,25 @@ create table draws (
   draw_month text,
   draw_numbers integer[],
   draw_type text check (draw_type in ('random', 'algorithm')),
-  total_prize_pool numeric default 0,
-  rollover_amount numeric default 0,
-  pool_share_5_match numeric default 0,
-  pool_share_4_match numeric default 0,
-  pool_share_3_match numeric default 0,
+  total_pool numeric default 0,
+  jackpot_carry numeric default 0,
   is_published boolean default false,
   processed_at timestamp,
   created_at timestamp default now(),
   constraint draw_numbers_length check (array_length(draw_numbers, 1) = 5)
 );
+
+-- RPC for algorithmic draw
+create or replace function get_score_frequencies()
+returns table (score integer, count bigint)
+as $$
+begin
+  return query
+  select s.score, count(*) as count
+  from scores s
+  group by s.score;
+end;
+$$ language plpgsql stable security definer;
 
 create table user_draw_entries (
   id uuid primary key default gen_random_uuid(),
