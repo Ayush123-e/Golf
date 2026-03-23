@@ -51,21 +51,19 @@ export default function LandingClient({ stats }: LandingClientProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-7xl md:text-[12rem] font-black italic tracking-tighter uppercase mb-8 leading-[0.7] flex flex-col items-center"
+            className="text-4xl md:text-7xl font-black italic tracking-tighter uppercase mb-8 leading-none"
           >
-            <span className="opacity-40">CHAMPIONSHIP.</span>
-            <span className="text-emerald-500 drop-shadow-[0_0_100px_rgba(16,185,129,0.4)]">REDESIGNED.</span>
+            Play Better. Win Bigger. <br />
+            <span className="text-emerald-500 drop-shadow-[0_0_100px_rgba(16,185,129,0.4)]">Give Back.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-zinc-400 text-lg md:text-xl max-w-3xl mx-auto mb-16 font-bold uppercase tracking-[0.2em] leading-relaxed"
+            className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed px-4"
           >
-            Where every stableford point fuels a cause. <br className="hidden md:block" />
-            Join the elite network competing for massive prize pools <br className="hidden md:block" />
-            while driving global impact.
+            Every round you play fuels a greater cause. Track your scores, enter monthly draws, and compete for life-changing prizes.
           </motion.p>
 
           <motion.div

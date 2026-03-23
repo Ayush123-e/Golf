@@ -61,6 +61,7 @@ export default function ScoreEntryForm() {
             <button 
               type="button" 
               onClick={() => setScore(Math.max(0, score - 1))} 
+              title="Decrease Score"
               className="w-14 h-14 rounded-2xl bg-zinc-800 text-2xl flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all active:scale-95 border border-white/5"
             >
               -
@@ -69,6 +70,7 @@ export default function ScoreEntryForm() {
             <button 
               type="button" 
               onClick={() => setScore(Math.min(45, score + 1))} 
+              title="Increase Score"
               className="w-14 h-14 rounded-2xl bg-zinc-800 text-2xl flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all active:scale-95 border border-white/5"
             >
               +
@@ -78,15 +80,21 @@ export default function ScoreEntryForm() {
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-zinc-500 text-[10px] font-black uppercase tracking-widest ml-2">Round Date</label>
+            <label htmlFor="round-date" className="text-zinc-500 text-[10px] font-black uppercase tracking-widest ml-2">Round Date</label>
             <div className="relative group">
-              <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" />
+              <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-emerald-500 transition-colors pointer-events-none" />
               <input 
+                id="round-date"
                 type="date" 
+                title="Select Round Date"
+                max={new Date().toISOString().split('T')[0]}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-black/50 border border-white/10 rounded-2xl py-5 pl-14 pr-4 text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none transition-all font-bold uppercase text-xs tracking-widest"
+                className="w-full bg-black/50 border border-white/10 rounded-2xl py-5 pl-14 pr-4 text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none transition-all font-bold uppercase text-xs tracking-widest cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
               />
+              <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                <span className="text-[10px] font-black text-emerald-500/40 uppercase tracking-widest">Select 📅</span>
+              </div>
             </div>
           </div>
 

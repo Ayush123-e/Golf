@@ -56,7 +56,7 @@ export default function ScoreEntryModal({ isOpen, onClose }: ScoreEntryModalProp
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="relative w-full max-w-lg bg-zinc-950 border border-white/10 rounded-[3rem] p-10 overflow-hidden shadow-2xl shadow-emerald-500/5"
           >
-            <button onClick={onClose} className="absolute top-8 right-8 text-zinc-500 hover:text-white transition-colors">
+            <button onClick={onClose} title="Close" className="absolute top-8 right-8 text-zinc-500 hover:text-white transition-colors">
               <X size={24} />
             </button>
 
@@ -111,16 +111,22 @@ export default function ScoreEntryModal({ isOpen, onClose }: ScoreEntryModalProp
               </div>
 
               <div className="space-y-6">
-                <div className="space-y-2 px-2">
-                  <label className="text-zinc-600 text-[9px] font-black uppercase tracking-widest ml-1 text-left block">Tournament Date</label>
-                  <div className="relative group">
-                    <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" />
+                <div className="pt-6 border-t border-white/5">
+                  <label htmlFor="modal-round-date" className="text-zinc-600 text-[10px] font-black uppercase tracking-widest block mb-4 text-center">Round Date</label>
+                  <div className="relative group max-w-xs mx-auto">
+                    <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-emerald-500 transition-colors pointer-events-none" size={20} />
                     <input 
+                      id="modal-round-date"
                       type="date" 
+                      title="Select Round Date"
+                      max={new Date().toISOString().split('T')[0]}
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full bg-black border border-white/10 rounded-[1.5rem] py-6 pl-16 pr-6 text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none transition-all font-bold uppercase text-[11px] tracking-widest"
+                      className="w-full bg-zinc-900 border border-white/5 rounded-2xl py-5 pl-16 pr-8 text-white font-bold outline-none focus:border-emerald-500/50 transition-all appearance-none cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                     />
+                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <span className="text-[10px] font-black text-emerald-500/40 uppercase tracking-widest">📅</span>
+                    </div>
                   </div>
                 </div>
 

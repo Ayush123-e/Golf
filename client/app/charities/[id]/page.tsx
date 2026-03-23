@@ -5,9 +5,16 @@ import { Heart, Globe, ArrowLeft, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default async function CharityProfilePage({ params }: { params: { id: string } }) {
+interface Charity {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+}
+
+export default async function CharityProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { charity } = await getCharityById(id);
+  const { charity } = await getCharityById(id) as { charity: Charity | null };
   
   if (!charity) notFound();
 
@@ -58,10 +65,13 @@ export default async function CharityProfilePage({ params }: { params: { id: str
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="flex-1 px-12 py-6 bg-emerald-500 text-black font-black italic uppercase text-sm tracking-tighter rounded-2xl hover:bg-white active:scale-95 transition-all flex items-center justify-center gap-3 group text-center">
+              <Link 
+                href={`/subscribe?charityId=${id}`}
+                className="flex-1 px-12 py-6 bg-emerald-500 text-black font-black italic uppercase text-sm tracking-tighter rounded-2xl hover:bg-white active:scale-95 transition-all flex items-center justify-center gap-3 group text-center"
+              >
                 CHOOSE THIS CAUSE
                 <Heart size={18} className="group-hover:fill-emerald-500 transition-colors" />
-              </button>
+              </Link>
               
               <Link 
                 href={`/subscribe?charityId=${id}&donation=true`}

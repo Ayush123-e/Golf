@@ -132,15 +132,19 @@ export default function ScoreEditModal({ isOpen, onClose, scoreData }: ScoreEdit
               <div className="pt-6 border-t border-white/5">
                 <label htmlFor="round-date" className="text-zinc-600 text-[10px] font-black uppercase tracking-widest block mb-4 text-center">Round Date</label>
                 <div className="relative group max-w-xs mx-auto">
-                  <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" size={20} />
+                  <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-emerald-500 transition-colors pointer-events-none" size={20} />
                   <input 
                     id="round-date"
                     type="date" 
                     title="Round Date"
+                    max={new Date().toISOString().split('T')[0]}
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full bg-zinc-900 border border-white/5 rounded-2xl py-5 pl-16 pr-8 text-white font-bold outline-none focus:border-emerald-500/50 transition-all appearance-none"
+                    className="w-full bg-zinc-900 border border-white/5 rounded-2xl py-5 pl-16 pr-8 text-white font-bold outline-none focus:border-emerald-500/50 transition-all appearance-none cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                   />
+                  <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <span className="text-[10px] font-black text-emerald-500/40 uppercase tracking-widest">📅</span>
+                  </div>
                 </div>
               </div>
 

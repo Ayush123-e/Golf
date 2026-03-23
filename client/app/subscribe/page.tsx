@@ -60,10 +60,16 @@ export default function SubscribePage() {
         headers: { "Content-Type": "application/json" }
       });
 
-      const { url } = await response.json();
-      if (url) window.location.href = url;
+      const data = await response.json();
+      if (data.error) {
+        alert(`Subscription failed: ${data.error}`);
+        return;
+      }
+      
+      if (data.url) window.location.href = data.url;
     } catch (err) {
       console.error("Subscription failed:", err);
+      alert("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -206,7 +212,7 @@ export default function SubscribePage() {
             disabled={loading}
             className="w-full bg-emerald-500 text-black py-6 rounded-3xl font-black uppercase tracking-widest hover:bg-white hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-3 disabled:opacity-50 group"
           >
-            {loading ? "Initializing Secure Payment..." : "Proceed to Checkout"}
+            {loading ? "Initializing..." : (formData.region === "india" ? "Activate Free Access" : "Proceed to Checkout")}
             <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </form>

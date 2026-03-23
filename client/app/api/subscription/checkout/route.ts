@@ -59,6 +59,10 @@ export async function POST(req: Request) {
 
     if (isDonation) {
       mode = "payment";
+      if (region === "india") {
+        // Handle free donation for India or simple mock success
+        return NextResponse.json({ url: `${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard?success=true&donation=true` });
+      }
       priceId = region === "india" 
         ? process.env.STRIPE_INR_DONATION_PRICE_ID 
         : process.env.STRIPE_DONATION_PRICE_ID;
@@ -100,8 +104,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
-    console.error("Stripe session error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("Stripe session error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -52,6 +52,21 @@ async function syncUserDrawEntry(userId: string) {
 
   const scoresArray = latestScores.map(s => s.score);
 
+  // Maintain only the latest 5 scores in the database (PRD Section 05)
+  const { data: allScores } = await supabase
+    .from('scores')
+    .select('id')
+    .eq('user_id', userId)
+    .order('played_at', { ascending: false });
+
+  if (allScores && allScores.length > 5) {
+    const idsToDelete = allScores.slice(5).map(s => s.id);
+    await supabase
+      .from('scores')
+      .delete()
+      .in('id', idsToDelete);
+  }
+
   await supabase
     .from('user_draw_entries')
     .upsert({
