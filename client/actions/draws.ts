@@ -105,13 +105,13 @@ export async function uploadWinnerProof(winnerId: string, formData: FormData) {
   const filePath = `${winnerId}/${Date.now()}.${fileExt}`;
 
   const { error: uploadError } = await supabase.storage
-    .from('proofs')
+    .from('score_proofs')
     .upload(filePath, file);
 
   if (uploadError) return { error: uploadError.message };
 
   const { data: { publicUrl } } = supabase.storage
-    .from('proofs')
+    .from('score_proofs')
     .getPublicUrl(filePath);
 
   const { error: updateError } = await supabase

@@ -25,14 +25,14 @@ export default async function Home() {
 
   const { data: drawData } = await supabase
     .from("draws")
-    .select("total_prize_pool")
+    .select("total_pool")
     .eq("is_published", false)
     .order("created_at", { ascending: false })
     .limit(1)
     .single();
 
-  const estimatedPrize = drawData?.total_prize_pool 
-    ? Number(drawData.total_prize_pool).toLocaleString()
+  const estimatedPrize = drawData?.total_pool 
+    ? Number(drawData.total_pool).toLocaleString()
     : "10,000";
 
 

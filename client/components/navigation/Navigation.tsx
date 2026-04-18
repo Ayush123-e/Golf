@@ -10,6 +10,7 @@ const navItems = [
   { name: 'Monthly Draw', href: '/draws', icon: Zap },
   { name: 'Add Score', href: '/scores/new', icon: PlusCircle },
   { name: 'My Profile', href: '/dashboard/profile', icon: User },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
 export default function Navigation() {
@@ -39,12 +40,7 @@ export default function Navigation() {
           })}
         </nav>
 
-        <div className="mt-auto border-t border-zinc-800 pt-4">
-           <button className="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:text-white w-full transition-colors group">
-             <Settings className="w-5 h-5 group-hover:rotate-45 transition-transform" />
-             <span className="font-medium">Settings</span>
-           </button>
-        </div>
+
       </aside>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-zinc-800 px-6 py-3">

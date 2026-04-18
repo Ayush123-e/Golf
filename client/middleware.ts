@@ -33,15 +33,20 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Redirect unauthenticated users to login for any protected route
+  if (!user) {
+    if (request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    return response
+  }
+
+  // Admin route protection — only check role if user is authenticated
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user?.id).single()
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
     if (profile?.role !== 'admin') {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
-  }
-
-  if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
-    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   return response
